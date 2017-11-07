@@ -16,6 +16,13 @@ public class AccesoaDatos {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        GestoraConsultas gestoraConsultas=new GestoraConsultas();
+        
+        gestoraConsultas.getGestoraConexion().connect();
+        
+        gestoraConsultas.getNumerosSorteo();
+        
+        gestoraConsultas.getGestoraConexion().close();
     }
     
 }
