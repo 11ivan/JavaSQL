@@ -36,15 +36,16 @@ public class GestoraConsultas {
             //Connection connexionBaseDatos = DriverManager.getConnection(camposConexion[0], camposConexion[1], camposConexion[2]);
             Statement sentencia = gestoraConexion.getConnect().createStatement();
             ResultSet resultados = sentencia.executeQuery(consulta);
-
+            
+            System.out.println("Numero 1 | "+"Numero 2 | "+"Numero 3 | "+"Numero 4 | "+"Numero 5 | "+"Numero 6 |");
             while(resultados.next()){
                     //id=resultados.getString("ID");
-                    System.out.println(resultados.getString("num1")+
-                    resultados.getString("num2")+
-                    resultados.getString("num3")+
-                    resultados.getString("num4")+
-                    resultados.getString("num5")+
-                    resultados.getString("num6"));
+                    System.out.println("|   "+resultados.getString("num1")+"    |   "+
+                    resultados.getString("num2")+"      |   "+
+                    resultados.getString("num3")+"      |   "+
+                    resultados.getString("num4")+"     |   "+
+                    resultados.getString("num5")+"     |  "+
+                    resultados.getString("num6")+"      |  ");
             }
             //connexionBaseDatos.close();
         } catch (SQLException e) {
