@@ -43,7 +43,8 @@ public class GestoraConexion {
                 conexionBaseDatos.close();
             } catch (SQLException ex) {
                 //Logger.getLogger(GestoraConexion.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
+                //ex.printStackTrace();
+                System.out.println(ex.getMessage());
             }
         }
         
