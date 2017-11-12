@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Random;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.nio.cs.Surrogate;
@@ -70,22 +72,42 @@ public class GestoraConsultas {
     /*
     Propósito: Graba una apuesta sencilla en la base de datos
     Prototipo: Boolean grabaSencilla(int idSorteo, int[] numerosApuesta)
-    Precondiciones: El array de enteros tendrá 6 números entre 1 y 49 y el sorteo debe estar abierto
+    Precondiciones: El array de enteros tendrá 6 números entre 1 y 49 no repetidos y el sorteo debe estar abierto
     Entradas: El ID del sorteo y un array de enteros con 6 números
     Salidas: Un booleano
-    Postcondiciones: El booleano será verdadero si el boleto se ha introducido correctamnete en la base de datos y falso sino
+    Postcondiciones: El booleano será verdadero si las combinacion se ha introducido correctamnete en la base de datos y falso sino
     */
     public Boolean grabaSencilla(int idSorteo, int[] numerosApuesta){//ID, Fecha/Hora, ID_Sorteo, Importe, Reintegro--para tabla boletos
-        Boolean introducido=true;                                    //ID_Boleto, Columna, Número, Tipo_Apuesta
+        Boolean introducido=true;                                    //ID_Boleto, Columna, Número, Tipo_Apuesta--Para tabla combinaciones
         //String newid = System.Guid.NewGuid().ToString();
         Random aleatorio=new Random();
-        Integer uniqueIdentifier= aleatorio.nextInt(9999)+1000;
+        //Integer uniqueIdentifier= aleatorio.nextInt(9999)+1000;
+        UUID uniqueIdentifier= UUID.randomUUID();
         String newID= uniqueIdentifier.toString();
-        String sentenciaPreparada="Insert into Boletos values("+newID+ new java.sql.Timestamp(new GregorianCalendar()) ")";
+        GregorianCalendar calendar=new GregorianCalendar(Locale.ENGLISH);
+        String sentenciaPreparada="Insert into Boletos values("+ newID +","+ new java.sql.Timestamp(calendar.getTimeInMillis()) +","+ 1 +","+ (aleatorio.nextInt(9)+1) +")";
         //PreparedStatement preparedStatement=
         
         return introducido;
     }
     
+//-----------------------------------------------------------------------------
+    /*
+    Propósito: Graba un boleto en la base de datos
+    Prototipo: Boolean grabaBoleto(int idSorteo)
+    Precondiciones: El sorteo debe estar abierto
+    Entradas: El ID del sorteo
+    Salidas: Un booleano
+    Postcondiciones: El booleano será verdadero si el boleto se ha introducido correctamnete en la base de datos y falso sino
+    */
+    public Boolean grabaBoleto(int idSorteo, String idBoleto){
+        Boolean insertado=false;
+        Random aleatorio=new Random();
+        GregorianCalendar calendar=new GregorianCalendar(Locale.ENGLISH);
+        String sentencia="INSERT INTO Boletos (ID, [Fecha/Hora], ID_Sorteo, Importe, Reintegro) values "
+                + "("+idBoleto+","+new java.sql.Timestamp(calendar.getTimeInMillis())+","+idSorteo+","+1+","+  ")";
+        
+        return insertado;
+    }
     
 }
