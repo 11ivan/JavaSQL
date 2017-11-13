@@ -81,12 +81,14 @@ public class GestoraConsultas {
         Boolean introducido=true;                                    //ID_Boleto, Columna, Número, Tipo_Apuesta--Para tabla combinaciones
         //String newid = System.Guid.NewGuid().ToString();
         Random aleatorio=new Random();
-        //Integer uniqueIdentifier= aleatorio.nextInt(9999)+1000;
         UUID uniqueIdentifier= UUID.randomUUID();
         String newID= uniqueIdentifier.toString();
-        GregorianCalendar calendar=new GregorianCalendar(Locale.ENGLISH);
-        String sentenciaPreparada="Insert into Boletos values("+ newID +","+ new java.sql.Timestamp(calendar.getTimeInMillis()) +","+ 1 +","+ (aleatorio.nextInt(9)+1) +")";
-        //PreparedStatement preparedStatement=
+        String sentenciaPreparada="Insert into Combinaciones values("+ newID +","+ 1 +","+ "?" +","+ "Simple" +")";
+        PreparedStatement preparedStatement;       
+        
+        do{
+            
+        }while(compruebaIdBoleto(newID));//Mientras exista el idBoleto generado
         
         return introducido;
     }
@@ -100,14 +102,51 @@ public class GestoraConsultas {
     Salidas: Un booleano
     Postcondiciones: El booleano será verdadero si el boleto se ha introducido correctamnete en la base de datos y falso sino
     */
-    public Boolean grabaBoleto(int idSorteo, String idBoleto){
-        Boolean insertado=false;
+    public Boolean grabaBoleto(int idSorteo, String idBoleto){//ID, Fecha/Hora, ID_Sorteo, Importe, Reintegro--para tabla boletos
+        Boolean insertado=true;
         Random aleatorio=new Random();
-        GregorianCalendar calendar=new GregorianCalendar(Locale.ENGLISH);
-        String sentencia="INSERT INTO Boletos (ID, [Fecha/Hora], ID_Sorteo, Importe, Reintegro) values "
-                + "("+idBoleto+","+new java.sql.Timestamp(calendar.getTimeInMillis())+","+idSorteo+","+1+","+  ")";
+        GregorianCalendar calendar=new GregorianCalendar(Locale.FRANCE);
+        String insert="INSERT INTO Boletos (ID, [Fecha/Hora], ID_Sorteo, Importe, Reintegro) values "
+                + "("+ idBoleto +","+ new java.sql.Timestamp(calendar.getTimeInMillis())+ "," +idSorteo+ ","+ 1 +","+ (aleatorio.nextInt(9)+1)+ ")";
+        Statement statement;
         
+        try {
+            statement = gestoraConexion.getConnect().createStatement();
+            statement.execute(insert);
+        } catch (SQLException ex) {
+            //Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            insertado=false;
+        }                 
         return insertado;
     }
+    
+    //-----------------------------------------------------------------------------
+    /*
+    Propósito: Comprueba si el ID de un boleto en la base de datos
+    Prototipo: Boolean compruebaIdBoleto(String idBoleto)
+    Precondiciones: El id no será nulo
+    Entradas: Una cadena que es el id del boleto
+    Salidas: Un booleano
+    Postcondiciones: El booleano será verdadero si el id del boleto yqa existee en la base de datos y falso sino
+    */
+    public Boolean compruebaIdBoleto(String idBoleto){
+        Boolean existe=false;
+        String consulta="SELECT ID FROM Boletos WHERE ID="+idBoleto;
+        Statement sentencia;
+        ResultSet result;
+        
+        try{
+            sentencia=gestoraConexion.getConnect().createStatement();
+            result=sentencia.executeQuery(consulta);
+            if(result!=null){
+                existe=true;
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return existe;
+    }
+    
     
 }
