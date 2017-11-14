@@ -23,7 +23,15 @@ public class AccesoaDatos {
         
         gestoraConsultas.getGestoraConexion().connect();
         
-        gestoraConsultas.getNumerosSorteo();
+        //Consulta para conseguir los números del último sorteo
+        //gestoraConsultas.getNumerosSorteo();
+        
+        //Grabar una apuesta sencilla
+        int[] arrayNumeros={5, 10, 20, 35, 12, 40};
+        int idSorteo=3;
+        System.out.println(gestoraConsultas.grabaSencilla(idSorteo, arrayNumeros));
+        
+        
         
         gestoraConsultas.getGestoraConexion().close();
     }

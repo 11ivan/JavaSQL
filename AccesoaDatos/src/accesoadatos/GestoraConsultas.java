@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
@@ -81,15 +82,30 @@ public class GestoraConsultas {
         Boolean introducido=true;                                    //ID_Boleto, Columna, Número, Tipo_Apuesta--Para tabla combinaciones
         //String newid = System.Guid.NewGuid().ToString();
         Random aleatorio=new Random();
-        UUID uniqueIdentifier= UUID.randomUUID();
-        String newID= uniqueIdentifier.toString();
+        UUID uniqueIdentifier;
+        String newID="";
         String sentenciaPreparada="Insert into Combinaciones values("+ newID +","+ 1 +","+ "?" +","+ "Simple" +")";
         PreparedStatement preparedStatement;       
         
         do{
-            
+            uniqueIdentifier= UUID.randomUUID();
+            newID= uniqueIdentifier.toString();
         }while(compruebaIdBoleto(newID));//Mientras exista el idBoleto generado
         
+        if(grabaBoleto(idSorteo, newID)){//Si el boleto se ha insertado pasamos a grabar la apuesta
+            try {
+                preparedStatement=gestoraConexion.getConnect().prepareStatement(sentenciaPreparada);
+
+                for(int i=0;i<numerosApuesta.length;i++){
+                    preparedStatement.setInt(1, numerosApuesta[i]);
+                    preparedStatement.executeUpdate();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            introducido=false;
+        }    
         return introducido;
     }
     
@@ -105,14 +121,19 @@ public class GestoraConsultas {
     public Boolean grabaBoleto(int idSorteo, String idBoleto){//ID, Fecha/Hora, ID_Sorteo, Importe, Reintegro--para tabla boletos
         Boolean insertado=true;
         Random aleatorio=new Random();
-        GregorianCalendar calendar=new GregorianCalendar(Locale.FRANCE);
+        //GregorianCalendar calendar=new GregorianCalendar(Locale.FRANCE);
+        Calendar calendar=GregorianCalendar.getInstance();
         String insert="INSERT INTO Boletos (ID, [Fecha/Hora], ID_Sorteo, Importe, Reintegro) values "
                 + "("+ idBoleto +","+ new java.sql.Timestamp(calendar.getTimeInMillis())+ "," +idSorteo+ ","+ 1 +","+ (aleatorio.nextInt(9)+1)+ ")";
         Statement statement;
+        int filasAfectadas=0;
         
         try {
             statement = gestoraConexion.getConnect().createStatement();
-            statement.execute(insert);
+            filasAfectadas=statement.executeUpdate(insert);
+            if(filasAfectadas==0){
+                insertado=false;
+            }
         } catch (SQLException ex) {
             //Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
