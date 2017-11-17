@@ -123,17 +123,19 @@ public class GestoraConsultas {
         Random aleatorio=new Random();
         //GregorianCalendar calendar=new GregorianCalendar(Locale.FRANCE);
         Calendar calendar=GregorianCalendar.getInstance();
-        String insert="INSERT INTO Boletos (ID, [Fecha/Hora], ID_Sorteo, Importe, Reintegro) values "
-                + "("+ idBoleto +","+ new java.sql.Timestamp(calendar.getTimeInMillis())+ "," +idSorteo+ ","+ 1 +","+ (aleatorio.nextInt(9)+1)+ ")";
+        GregorianCalendar gregorio=new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        String fechaCadena=gregorio.toString();
+        //fechaCadena=fechaCadena.substring(idSorteo, idSorteo)
+        String insert="INSERT INTO Boletos (ID, [Fecha/Hora], ID_Sorteo, Importe, Reintegro) values ("+ idBoleto +","+ new java.sql.Timestamp(gregorio.getTimeInMillis())+ "," +idSorteo+ ","+ 1 +","+ (aleatorio.nextInt(9)+1)+ ")";
         Statement statement;
         int filasAfectadas=0;
         
         try {
             statement = gestoraConexion.getConnect().createStatement();
-            filasAfectadas=statement.executeUpdate(insert);
-            if(filasAfectadas==0){
+            insertado=statement.execute(insert);
+            /*if(filasAfectadas==0){
                 insertado=false;
-            }
+            }*/
         } catch (SQLException ex) {
             //Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);

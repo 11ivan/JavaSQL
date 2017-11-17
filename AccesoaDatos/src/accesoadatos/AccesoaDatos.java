@@ -18,9 +18,7 @@ public class AccesoaDatos {
     
     public static void main(String[] args) {
         
-        GestoraConsultas gestoraConsultas=new GestoraConsultas();
-        
-        
+        GestoraConsultas gestoraConsultas=new GestoraConsultas();                     
         gestoraConsultas.getGestoraConexion().connect();
         
         //Consulta para conseguir los números del último sorteo
