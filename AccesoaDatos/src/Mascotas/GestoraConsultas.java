@@ -68,5 +68,14 @@ public class GestoraConsultas {
         }
     }
     
+    /*
+    Proposito: Comprueba si es necesario realizar una actualizacion o una inserción 
+    Precondiciones: La tabla BI_Actualizaciones debe contener algún dato
+    Entradas: No hay
+    Salidas: Un ResultSet con el resultado de la consulta a BI_Actualizaciones
+    Postcondiciones: Se ha cargado en un ResultSet el contenido de la tabla BI_Actualizaciones
+    */
+
+    
     
 }
