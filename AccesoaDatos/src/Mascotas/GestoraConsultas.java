@@ -5,6 +5,7 @@
  */
 package Mascotas;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,7 +35,7 @@ public class GestoraConsultas {
     Postcondiciones: Se ha cargado en un ResultSet el contenido de la tabla BI_Actualizaciones
     */
     public ResultSet cargaContenidoActualizaciones(){
-       // conexion.connect();
+        //conexion.connect();
         String consulta="SELECT * FROM BI_Actualizaciones";
         Statement sentencia;
         ResultSet resultSet=null;
@@ -58,44 +59,72 @@ public class GestoraConsultas {
     */
     public void routerXD(ResultSet resultSet){
         //String fecha
-        String temperatura;
-        String peso;
+        java.sql.Timestamp fechaVisita;
+        int temperatura;
+        int peso;
         String codigoMascota;
         String raza;
         String especie;
-        String fechaNac;
-        String fechaFall;
+        java.sql.Date fechaNac;
+        java.sql.Date fechaFall;
         String alias;
-        String codigoPropietario;
+        int codigoPropietario;
         String enfermedad;
         if(resultSet!=null){
             try {
                 while(resultSet.next()){
-                    //insercion en la table BI_Mascotas mediante resulset actualizable
+                    //1. insercion en la table BI_Mascotas mediante resulset actualizable
                     
-                    //inserciones en BI_MascotasEnfermedades deben hacerse con una sentencia preparada (Prepared Statement o CallableStatement).
+                    //2. inserciones en BI_MascotasEnfermedades deben hacerse con una sentencia preparada (Prepared Statement o CallableStatement).
                     //Esta sentencia debe ejecutar el procedimiento almacenado del ejercicio 1.
                     
-                    //Las inserciones en BI_Visitas las puedes hacer como mejor te parezca.
+                    //3. Las inserciones en BI_Visitas las puedes hacer como mejor te parezca.
 
-                    //Si la raza, la especie y enfermedad son null a enfermedad es que la mascota ya está registrada,
+                    fechaVisita=resultSet.getTimestamp("Fecha");
+                    temperatura=resultSet.getInt("Temperatura");
+                    peso=resultSet.getInt("Peso");
+                    codigoMascota=resultSet.getString("CodigoMascota");
+                    raza=resultSet.getString("Raza");
+                    especie=resultSet.getString("Especie");
+                    if(resultSet.getDate("FechaNacimiento")!=null){
+                        fechaNac=resultSet.getDate("FechaNacimiento");
+                    }
+                    if(resultSet.getDate("FechaFallecmiento")!=null){
+                        fechaFall=resultSet.getDate("FechaFallecmiento");
+                    }
+                    alias=resultSet.getString("Alias");
+                    codigoPropietario=resultSet.getInt("CodigoPropietario");
+                    enfermedad=resultSet.getString("Enfermedad");
+                    
+                    
+                    //Si la raza, la especie y enfermedad son null es que la mascota ya está registrada,
                     //será inserción sólo en BI_Visitas
+                    if(raza==null && especie==null && enfermedad==null){
+                        insertInTovisitas(fechaVisita, temperatura, peso, codigoMascota);
+                    }
                     
                     //Si la raza, epecie son null pero la enfermedad no es que la mascota ya está registrada,
                     //se hará la inserción en BI_MascotasEnfermedades y BI_Visitas
+                    if(raza==null && especie==null && enfermedad!=null){
+                    
+                    }       
                     
                     //Si la raza y especie no son null pero la enfermedad sí, es que la mascota no está registrada, 
                     //se hará una inserción en la tabla BI_Mascotas, BI_Visitas y BI_Clientes
+                    if(raza!=null && especie!=null && enfermedad==null){
                     
+                    }       
+
                     //Si la raza, especie y enfermedad no son null, es que la mascota no está registrada, 
                     //se hará una inserción en la tabla BI_Mascotas, BI_Visitas, BI_Clientes y BI_MascotasEnfermedades
+                    if(raza!=null && especie!=null && enfermedad!=null){
                     
-                    
-                }
+                    }                         
+                }//fin mientras
             } catch (SQLException ex) {
                 Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }//fin si
     }
     
     /*
@@ -105,12 +134,42 @@ public class GestoraConsultas {
     Salidas: Un entero con la cantidad de filas afectadas
     Postcondiciones: Se ha insertado en la Tabla BI_Mascotas los nuevos datos
     */
-    public int insertInTOMascotas(){
+    public int insertInToMascotas(String codigoMascota, String raza, String especie, java.sql.Date fechaNacimiento, java.sql.Date fechaFallecimiento, String alias, int codPropietario){
         int filasAfectadas=0;
     
         
         
         
+        return filasAfectadas;
+    }
+    
+    
+    /*
+    Proposito: Realiza una insercion en la table BI_Visitas
+    Precondiciones: No hay
+    Entradas: fecha de visita tipo java.sql.TimeStamp, temperatura tipo int, peso int, codMascota String
+    Salidas: Un entero con la cantidad de filas afectadas
+    Postcondiciones: Se ha insertado en la Tabla BI_Visitas los nuevos datos
+    */
+    public int insertInTovisitas(java.sql.Timestamp fechaVisita, int temperatura, int peso, String codMascota){
+        int filasAfectadas=0;
+        String cadenaSentencia="insert into BI_Visitas (Fecha, Temperatura, Peso, Mascota) values (?, ?, ?, ?)";
+        PreparedStatement sentenciaPreparada;
+        
+        try {
+            sentenciaPreparada=conexion.getConnect().prepareStatement(cadenaSentencia);
+            
+            sentenciaPreparada.setTimestamp(1, fechaVisita);
+            sentenciaPreparada.setInt(2, temperatura);
+            sentenciaPreparada.setInt(3, peso);
+            sentenciaPreparada.setString(4, codMascota);
+            
+            filasAfectadas=sentenciaPreparada.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
         return filasAfectadas;
     }
     
