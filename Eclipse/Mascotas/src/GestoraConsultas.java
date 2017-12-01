@@ -5,6 +5,7 @@
  */
 //package Mascotas;
 
+import java.awt.Cursor;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,13 +67,18 @@ public class GestoraConsultas {
         String codigoMascota;
         String raza;
         String especie;
-        java.sql.Date fechaNac;
-        java.sql.Date fechaFall;
+        java.sql.Date fechaNac=null;
+        java.sql.Date fechaFall=null;
         String alias;
         int codigoPropietario;
         String enfermedad;
+        String cadenaBegin="exec Begin Transaction";
+        String cadenaRollback="exec rollback";
+        Statement sentencia=null;
         if(resultSet!=null){
             try {
+            	sentencia=conexion.getConnect().createStatement();
+            	//sentencia.execute(cadenaBegin);
                 while(resultSet.next()){
                     //1. insercion en la table BI_Mascotas mediante resulset actualizable
                     
@@ -114,19 +120,39 @@ public class GestoraConsultas {
                     //Si la raza y especie no son null pero la enfermedad s√≠, es que la mascota no est√° registrada, 
                     //se har√° una inserci√≥n en la tabla BI_Mascotas, BI_Visitas y BI_Clientes
                     if(raza!=null && especie!=null && enfermedad==null){
+                    	//insertar primero en clientes, despues en mascotas
                     	
+                    	//Comprobar si el cliente ya existe para hacer la inserciÛn
+                    	if(!existeCliente(codigoPropietario)){
+                    		insertInToClientes(codigoPropietario);
+                    	}                   	                 
+                    	//Comprobar si la mascota ya existe para hacer la inserciÛn
+                    	if(!existeMascota(codigoMascota)){
+                    		insertInToMascotas(codigoMascota, raza, especie, fechaNac, fechaFall, alias, codigoPropietario);
+                    	}
                     	insertInTovisitas(fechaVisita, temperatura, peso, codigoMascota);
                     }       
 
                     //Si la raza, especie y enfermedad no son null, es que la mascota no est√° registrada, 
                     //se har√° una inserci√≥n en la tabla BI_Mascotas, BI_Visitas, BI_Clientes y BI_MascotasEnfermedades
-                    if(raza!=null && especie!=null && enfermedad!=null){
+                    if(raza!=null && especie!=null && enfermedad!=null){          	
                     	//insertar primero en clientes, despues en mascotas
+                    	
+                    	//Comprobar si el cliente ya existe para hacer la inserciÛn
+                    	if(!existeCliente(codigoPropietario)){
+                    		insertInToClientes(codigoPropietario);
+                    	}                   	
+                    	//Comprobar si la mascota ya existe para hacer la inserciÛn
+                    	if(!existeMascota(codigoMascota)){
+                    		insertInToMascotas(codigoMascota, raza, especie, fechaNac, fechaFall, alias, codigoPropietario);
+                    	}                    	                 	
                     	insertInTovisitas(fechaVisita, temperatura, peso, codigoMascota);             	
                     	insertInToMascotasEnfermedades(enfermedad, fechaVisita, codigoMascota);
-                    }                         
+                    }                       
+                    
                 }//fin mientras
-            } catch (SQLException ex) {
+                //sentencia.execute(cadenaRollback);
+            } catch (SQLException ex) {        	
                 Logger.getLogger(GestoraConsultas.class.getName()).log(Level.SEVERE, null, ex);
             }
         }//fin si
@@ -141,10 +167,34 @@ public class GestoraConsultas {
     */
     public int insertInToMascotas(String codigoMascota, String raza, String especie, java.sql.Date fechaNacimiento, java.sql.Date fechaFallecimiento, String alias, int codPropietario){
         int filasAfectadas=0;
-    
-        
-        
-        
+        String cadenaSentencia="Select Codigo, Raza, Especie, FechaNacimiento, FechaFallecimiento, Alias, CodigoPropietario From BI_Mascotas";
+        //Cursor cursor;
+        Statement sentencia;
+        ResultSet resultSetAct;
+        try{
+        	sentencia=conexion.getConnect().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+        	resultSetAct=sentencia.executeQuery(cadenaSentencia);
+        	if(resultSetAct.next()){        		
+        		//Posicionamos el cursor en la fila de inserciÛn
+        		resultSetAct.moveToInsertRow();
+        		
+        		//Cambiamos los datos para esa fila
+        		resultSetAct.updateString("Codigo", codigoMascota);
+        		resultSetAct.updateString("Raza", raza);
+        		resultSetAct.updateString("Especie", especie);
+        		resultSetAct.updateDate("FechaNacimiento", fechaNacimiento);
+        		if(fechaFallecimiento!=null){
+        			resultSetAct.updateDate("FechaFallecimiento", fechaFallecimiento);
+        		}
+        		resultSetAct.updateString("Alias", alias);
+        		resultSetAct.updateInt("CodigoPropietario", codPropietario);
+        		//Y la insertamos
+        		resultSetAct.insertRow();
+        	}
+        }catch(SQLException e){
+        	//e.printStackTrace();
+        	System.out.println(e.getMessage());
+        }                    
         return filasAfectadas;
     }
     
@@ -187,7 +237,7 @@ public class GestoraConsultas {
     */
     public int insertInToMascotasEnfermedades(String nombreEnfermedad, java.sql.Timestamp fechaDiagnostico, String codMascota){
     	int filasAfectadas=0;
-    	String cadenaSentencia="exec dbo.InsertMascotasEnfermedades ?, ?, ?";
+    	String cadenaSentencia="exec InsertMascotasEnfermedades ?, ?, ?";
     	CallableStatement callableStatement;
     	
     	try {
@@ -197,10 +247,89 @@ public class GestoraConsultas {
 			callableStatement.setString(3, codMascota);
 			filasAfectadas=callableStatement.executeUpdate();			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
     	return filasAfectadas;
     }
+    
+    /*
+    Proposito: Realiza una insercion en la tabla BI_Clientes 
+    Precondiciones: No hay
+    Entradas: Un entero que es el codigo
+    Salidas: Un entero con la cantidad de filas afectadas
+    Postcondiciones: Se ha insertado en la Tabla BI_Clientes los nuevos datos
+    */
+    public int insertInToClientes(int codigo){
+        int filasAfectadas=0;
+        String cadenaSentencia="insert into BI_Clientes (Codigo, Telefono, Direccion) values (?, ?, ?)";
+        PreparedStatement sentenciaPreparada;
+		try{
+			sentenciaPreparada=conexion.getConnect().prepareStatement(cadenaSentencia);
+			
+			sentenciaPreparada.setInt(1, codigo);
+			sentenciaPreparada.setString(2, "000000000");
+			sentenciaPreparada.setString(3, "Desconocida");
+			
+			filasAfectadas=sentenciaPreparada.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}           
+        return filasAfectadas;
+    }
+    
+    
+    /*
+    Proposito: Comprueba si un cliente ya existe en la base de datos
+    Precondiciones: No hay
+    Entradas: Un entero que es el codigo
+    Salidas: Un booleano
+    Postcondiciones: El booleano ser· verdadero si el cliente existe y false sino
+    */
+    public boolean existeCliente(int codigo){
+    	boolean existe=false;
+    	String cadenaConsulta="Select * from BI_Clientes where Codigo=?";
+    	PreparedStatement preparedStatement;
+    	ResultSet result;
+    	try{
+    		preparedStatement=conexion.getConnect().prepareStatement(cadenaConsulta);
+    		preparedStatement.setInt(1, codigo);
+    		result=preparedStatement.executeQuery();
+    		if(result.next()){
+    			existe=true;
+    		}
+    	}catch(SQLException e){
+    		System.out.println(e.getMessage());
+    	}	
+    	return existe;
+    }
+
+    /*
+    Proposito: Comprueba si una mascota ya existe en la base de datos
+    Precondiciones: No hay
+    Entradas: Un entero que es el codigo
+    Salidas: Un booleano
+    Postcondiciones: El booleano ser· verdadero si la mascota existe y false sino
+    */
+    public boolean existeMascota(String codigo){
+    	boolean existe=false;
+    	String cadenaConsulta="Select * from BI_Mascotas where Codigo=?";
+    	PreparedStatement preparedStatement;
+    	ResultSet result;
+    	try{
+    		preparedStatement=conexion.getConnect().prepareStatement(cadenaConsulta);
+    		preparedStatement.setString(1, codigo);
+    		result=preparedStatement.executeQuery();
+    		if(result.next()){
+    			existe=true;
+    		}
+    	}catch(SQLException e){
+    		System.out.println(e.getMessage());
+    	}	
+    	return existe;
+    }
+
+    
     
     
     

@@ -20,6 +20,9 @@ public class Main {
             gestoraConsultas.getGestoraConexion().connect();
             ResultSet resultSet=gestoraConsultas.cargaContenidoActualizaciones();
             gestoraConsultas.routerXD(resultSet);
+            gestoraConsultas.getGestoraConexion().close();
+            //System.out.println(gestoraConsultas.existeMascota("PH001"));
+            System.out.println("Si ha llegado aquí es por que está bien. Fiuuu");
         }catch(Exception e){
             e.printStackTrace();
         }
