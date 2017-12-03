@@ -50,11 +50,9 @@ public class GestoraConsultas {
     }
     
      /*
-    Proposito: Dependidendo del estado de las columnas NombreAvion y Fabricante realizaremos 
-    		   inserciones en la tabla AS_Incidencias, AS_Aviones y/o daremos de baja a un 
-    		   avion/es y los futuros vuelos asociados si ha tenido un Accidente Definitivo
+    Proposito: 
     Precondiciones: La tabla BI_Actualizaciones debe contener algún dato
-    Entradas: Un ResultSet con el contenido de la tabla EX_Actualizaciones
+    Entradas: No hay
     Salidas: no hay
     Postcondiciones: Se ha actualizado la base de datos
     */
@@ -102,7 +100,7 @@ public class GestoraConsultas {
                 	
                 	
                     //Si los datos del avion estan a null excepto la matricula es que el avion ya esta registrado
-                	if(matriculaAvion!=null && nombreAvion==null && fabricante==null) {//LA MATRICULA NUNCA ES NULL
+                	if(matriculaAvion!=null && nombreAvion==null && fabricante==null) {
                 		//Conseguir id del fabricante
                 		short idFabricante=getIdFabricante(fabricante);
                 		
@@ -201,8 +199,7 @@ public class GestoraConsultas {
             	id=resultSet.getShort("ID_Fabricante");
             }
         } catch (SQLException e) {
-        	System.out.println(e.getMessage());     
-        }          	    	
+        	System.out.println(e.getMessage());        }          	    	
     	return id;
     }   
        
