@@ -40,9 +40,7 @@ public class GestoraConsultas {
     Postcondiciones: Se ha cargado en un ResultSet el contenido de la tabla EX_Actualizaciones
     */
     public ResultSet cargaContenidoActualizaciones(){     
-        String consulta="SELECT MatriculaAvion, Latitud, Longitud, Descripcion, Tipo, AccidenteDefinitivo,"
-        				+ "NombreAvion, Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, "
-        				+ "Asientos_x_Fila, Autonomia FROM EX_Actualizaciones";	
+        String consulta="SELECT * FROM EX_Actualizaciones";
         Statement sentencia;
         ResultSet resultSet=null;
         
@@ -59,20 +57,58 @@ public class GestoraConsultas {
     Proposito: Dependidendo del estado de las columnas NombreAvion y Fabricante realizaremos 
     		   inserciones en la tabla AS_Incidencias, AS_Aviones y/o daremos de baja a un 
     		   avion/es y los futuros vuelos asociados si ha tenido un Accidente Definitivo
-    Precondiciones: No hay
+    Precondiciones: La tabla BI_Actualizaciones debe contener algún dato
     Entradas: Un ResultSet con el contenido de la tabla EX_Actualizaciones
     Salidas: no hay
     Postcondiciones: Se ha actualizado la base de datos
     */
-    public void routerXD(){
-    	ResultSet resultSet=cargaContenidoActualizaciones();
+    public void routerXD(ResultSet resultSet){
+    	
+    	/*String matriculaAvion;
+    	java.math.BigDecimal latitud;
+    	java.math.BigDecimal longitud;
+    	String descripcion;
+    	String tipo;
+    	boolean accidenteDefinitivo;
+    	String nombreAvion;
+    	String fabricante;
+    	String modelo;
+        java.sql.Date fechaFabricacion;
+        java.sql.Date fechaEntrada;
+        short filas;
+        short asientosXFila;
+        int autonomia;
+        short idFabricante=0;*/
+        
         Incidencia incidencia=new Incidencia();
         Avion avion=new Avion();
         
         if(resultSet!=null){
             try {            	           	
                 while(resultSet.next()){
-            	
+                    //1. Las modificaciones en la tabla AS_Aviones mediante un resultSet actualizable
+                	//excepto las bajas que usaremos el procedimiento almacenado del ej 1
+                    
+                    //2. Para las bajas usaremos el procedimiento almacenado del ejercicio 1. con prepared o callable
+                    
+                    //3. Las inserciones en AS_Incidencias y el resto las puedes hacer como mejor te parezca.
+
+                	/*matriculaAvion=resultSet.getString("MatriculaAvion");
+                	latitud=resultSet.getBigDecimal("Latitud");
+                	longitud=resultSet.getBigDecimal("Longitud");
+                	descripcion=resultSet.getString("Descripcion");
+                	tipo=resultSet.getString("Tipo");
+                	accidenteDefinitivo=resultSet.getBoolean("AccidenteDefinitivo");
+                	nombreAvion=resultSet.getString("NombreAvion");
+                	fabricante=resultSet.getString("Fabricante");
+                	modelo=resultSet.getString("Modelo");
+                	fechaFabricacion=resultSet.getDate("Fecha_Fabricacion");
+                	fechaEntrada=resultSet.getDate("Fecha_Entrada");
+                	filas=resultSet.getShort("Filas");
+                	asientosXFila=resultSet.getShort("Asientos_x_Fila");
+                	autonomia=resultSet.getInt("Autonomia");
+                	idFabricante=getIdFabricante(fabricante);*///Conseguir id del fabricante
+              	
                 	//Damos los datos al avion
                 	avion.setNombre(resultSet.getString("NombreAvion"));
                 	avion.setMatricula(resultSet.getString("MatriculaAvion"));                	
@@ -114,7 +150,6 @@ public class GestoraConsultas {
             }
         }//fin si
     }
-    
     
     /*
     Proposito: Realiza una insercion en la tabla AS_Aviones mediante un resultSet actualizable
@@ -166,10 +201,14 @@ public class GestoraConsultas {
     */
     public short getIdFabricante(String nombre) {
     	short id=0;
+        String consulta="SELECT ID_Fabricante FROM AS_Fabricantes where Nombre=?";
+        PreparedStatement sentenciaPreparada;
         ResultSet resultSet=null;      
         try {
-        	gestoraSentencias.getPreparedStatementSelectIdFabricante().setString(1, nombre);
-            resultSet=gestoraSentencias.getPreparedStatementSelectIdFabricante().executeQuery();    
+        	sentenciaPreparada=conexion.getConnect().prepareStatement(consulta);
+        	
+        	sentenciaPreparada.setString(1, nombre);
+            resultSet=sentenciaPreparada.executeQuery();    
             if(resultSet.next()) {
             	id=resultSet.getShort("ID_Fabricante");
             }
@@ -188,9 +227,12 @@ public class GestoraConsultas {
     			     vuelos asociados
     */
     public void executeBajaAvion(String matricula) {
-    	try {			
-			gestoraSentencias.getCallableStatementExecBajaAvion().setString(1, matricula);		
-			gestoraSentencias.getCallableStatementExecBajaAvion().executeUpdate();			
+        String cadenaSentencia="exec BajaAvion ?";
+    	CallableStatement callableStatement;   	
+    	try {
+			callableStatement=conexion.getConnect().prepareCall(cadenaSentencia);
+			callableStatement.setString(1, matricula);		
+			callableStatement.executeUpdate();			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}    	
@@ -205,14 +247,18 @@ public class GestoraConsultas {
     */
     public int insertInToIncidencias(Incidencia incidencia){
         int filasAfectadas=0;
-        try{              	
-            gestoraSentencias.getPreparedstatementInsertInToIncidencias().setString(1, incidencia.getMatriculaAvion());
-            gestoraSentencias.getPreparedstatementInsertInToIncidencias().setBigDecimal(2, incidencia.getLatitud());
-            gestoraSentencias.getPreparedstatementInsertInToIncidencias().setBigDecimal(3, incidencia.getLongitud());
-            gestoraSentencias.getPreparedstatementInsertInToIncidencias().setString(4, incidencia.getDescripcion());
-            gestoraSentencias.getPreparedstatementInsertInToIncidencias().setString(5, incidencia.getTipo());
+        String cadenaSentencia="insert INTO AS_Incidencias (Avion, Latitud, Longitud, Descripcion, Tipo) values( ?, ?, ?, ?, ?)";
+        PreparedStatement sentenciaPreparada;
+        try{
+        	sentenciaPreparada=conexion.getConnect().prepareStatement(cadenaSentencia);
+        	
+            sentenciaPreparada.setString(1, incidencia.getMatriculaAvion());
+            sentenciaPreparada.setBigDecimal(2, incidencia.getLatitud());
+            sentenciaPreparada.setBigDecimal(3, incidencia.getLongitud());
+            sentenciaPreparada.setString(4, incidencia.getDescripcion());
+            sentenciaPreparada.setString(5, incidencia.getTipo());
             
-            filasAfectadas=gestoraSentencias.getPreparedstatementInsertInToIncidencias().executeUpdate();
+            filasAfectadas=sentenciaPreparada.executeUpdate();
 
         }catch(SQLException e){
         	//e.printStackTrace();

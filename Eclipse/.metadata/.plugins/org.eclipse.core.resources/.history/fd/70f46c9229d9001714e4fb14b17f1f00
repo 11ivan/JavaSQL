@@ -1,0 +1,52 @@
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class GestoraSentencias {
+
+	private PreparedStatement preparedStatementSelectIdFabricante;
+	private CallableStatement callableStatementExecBajaAvion;
+	private PreparedStatement preparedstatementInsertInToIncidencias;
+	private GestoraConexion conexion;
+	
+	public GestoraSentencias(){
+		conexion=new GestoraConexion();
+		try {
+			preparedStatementSelectIdFabricante=conexion.getConnect().prepareStatement("SELECT ID_Fabricante FROM AS_Fabricantes where Nombre=?");
+			callableStatementExecBajaAvion=conexion.getConnect().prepareCall("exec BajaAvion ?");
+			preparedstatementInsertInToIncidencias=conexion.getConnect().prepareStatement("insert INTO AS_Incidencias (Avion, Latitud, Longitud, Descripcion, Tipo) values( ?, ?, ?, ?, ?)");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	public PreparedStatement getPreparedStatementSelectIdFabricante() {
+		return preparedStatementSelectIdFabricante;
+	}
+
+	public void setPreparedStatementSelectIdFabricante(PreparedStatement preparedStatementSelectIdFabricante) {
+		this.preparedStatementSelectIdFabricante = preparedStatementSelectIdFabricante;
+	}
+
+	public CallableStatement getCallableStatementExecBajaAvion() {
+		return callableStatementExecBajaAvion;
+	}
+
+	public void setCallableStatementExecBajaAvion(CallableStatement callableStatementExecBajaAvion) {
+		this.callableStatementExecBajaAvion = callableStatementExecBajaAvion;
+	}
+
+	public PreparedStatement getPreparedstatementInsertInToIncidencias() {
+		return preparedstatementInsertInToIncidencias;
+	}
+
+	public void setPreparedstatementInsertInToIncidencias(PreparedStatement preparedstatementInsertInToIncidencias) {
+		this.preparedstatementInsertInToIncidencias = preparedstatementInsertInToIncidencias;
+	}
+	
+	
+	
+	
+	
+}

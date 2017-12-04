@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /*
@@ -26,9 +27,9 @@ public class Avion {
 	private String modelo; 
 	private java.sql.Date fechaFabricacion;
 	private java.sql.Date fechaEntrada;
-	private short filas;
-	private short asientosXFila;
-	private int autonomia;
+	private Integer filas;
+	private Integer asientosXFila;
+	private Integer autonomia;
 	private boolean activo;
 	
 	
@@ -36,10 +37,10 @@ public class Avion {
 		//GregorianCalendar gregorio=new GregorianCalendar();
 		matricula="";
 		nombre="";
-		idFabricante=0;
+		idFabricante=-1;
 		modelo="";
-		fechaFabricacion=new java.sql.Date(0);
-		fechaEntrada=new java.sql.Date(0);
+		fechaFabricacion=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+		fechaEntrada=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 		filas=0;
 		asientosXFila=0;
 		autonomia=0;
@@ -107,32 +108,32 @@ public class Avion {
 	}
 
 
-	public short getFilas() {
+	public Integer getFilas() {
 		return filas;
 	}
 
 
-	public void setFilas(short filas) {
+	public void setFilas(Integer filas) {
 		this.filas = filas;
 	}
 
 
-	public short getAsientosXFila() {
+	public Integer getAsientosXFila() {
 		return asientosXFila;
 	}
 
 
-	public void setAsientosXFila(short asientosXFila) {
+	public void setAsientosXFila(Integer asientosXFila) {
 		this.asientosXFila = asientosXFila;
 	}
 
 
-	public int getAutonomia() {
+	public Integer getAutonomia() {
 		return autonomia;
 	}
 
 
-	public void setAutonomia(int autonomia) {
+	public void setAutonomia(Integer autonomia) {
 		this.autonomia = autonomia;
 	}
 

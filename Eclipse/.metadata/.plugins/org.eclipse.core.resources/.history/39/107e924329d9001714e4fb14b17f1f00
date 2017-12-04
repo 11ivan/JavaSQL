@@ -5,6 +5,8 @@
  */
 //package Mascotas;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -16,6 +18,7 @@ public class Main {
         
         try{
             gestoraConsultas.getGestoraConexion().connect();
+            //ResultSet resultSet=gestoraConsultas.cargaContenidoActualizaciones();
             gestoraConsultas.routerXD();
             gestoraConsultas.getGestoraConexion().close();       
             System.out.println("Si ha llegado aquí es por que está bien. Fiuuu");

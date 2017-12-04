@@ -40,9 +40,7 @@ public class GestoraConsultas {
     Postcondiciones: Se ha cargado en un ResultSet el contenido de la tabla EX_Actualizaciones
     */
     public ResultSet cargaContenidoActualizaciones(){     
-        String consulta="SELECT MatriculaAvion, Latitud, Longitud, Descripcion, Tipo, AccidenteDefinitivo,"
-        				+ "NombreAvion, Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, "
-        				+ "Asientos_x_Fila, Autonomia FROM EX_Actualizaciones";	
+        String consulta="SELECT * FROM EX_Actualizaciones";				//CAMBIAR//
         Statement sentencia;
         ResultSet resultSet=null;
         
@@ -59,20 +57,58 @@ public class GestoraConsultas {
     Proposito: Dependidendo del estado de las columnas NombreAvion y Fabricante realizaremos 
     		   inserciones en la tabla AS_Incidencias, AS_Aviones y/o daremos de baja a un 
     		   avion/es y los futuros vuelos asociados si ha tenido un Accidente Definitivo
-    Precondiciones: No hay
+    Precondiciones: La tabla BI_Actualizaciones debe contener algún dato
     Entradas: Un ResultSet con el contenido de la tabla EX_Actualizaciones
     Salidas: no hay
     Postcondiciones: Se ha actualizado la base de datos
     */
-    public void routerXD(){
-    	ResultSet resultSet=cargaContenidoActualizaciones();
+    public void routerXD(ResultSet resultSet){
+    	
+    	/*String matriculaAvion;
+    	java.math.BigDecimal latitud;
+    	java.math.BigDecimal longitud;
+    	String descripcion;
+    	String tipo;
+    	boolean accidenteDefinitivo;
+    	String nombreAvion;
+    	String fabricante;
+    	String modelo;
+        java.sql.Date fechaFabricacion;
+        java.sql.Date fechaEntrada;
+        short filas;
+        short asientosXFila;
+        int autonomia;
+        short idFabricante=0;*/
+        
         Incidencia incidencia=new Incidencia();
         Avion avion=new Avion();
         
         if(resultSet!=null){
             try {            	           	
                 while(resultSet.next()){
-            	
+                    //1. Las modificaciones en la tabla AS_Aviones mediante un resultSet actualizable
+                	//excepto las bajas que usaremos el procedimiento almacenado del ej 1
+                    
+                    //2. Para las bajas usaremos el procedimiento almacenado del ejercicio 1. con prepared o callable
+                    
+                    //3. Las inserciones en AS_Incidencias y el resto las puedes hacer como mejor te parezca.
+
+                	/*matriculaAvion=resultSet.getString("MatriculaAvion");
+                	latitud=resultSet.getBigDecimal("Latitud");
+                	longitud=resultSet.getBigDecimal("Longitud");
+                	descripcion=resultSet.getString("Descripcion");
+                	tipo=resultSet.getString("Tipo");
+                	accidenteDefinitivo=resultSet.getBoolean("AccidenteDefinitivo");
+                	nombreAvion=resultSet.getString("NombreAvion");
+                	fabricante=resultSet.getString("Fabricante");
+                	modelo=resultSet.getString("Modelo");
+                	fechaFabricacion=resultSet.getDate("Fecha_Fabricacion");
+                	fechaEntrada=resultSet.getDate("Fecha_Entrada");
+                	filas=resultSet.getShort("Filas");
+                	asientosXFila=resultSet.getShort("Asientos_x_Fila");
+                	autonomia=resultSet.getInt("Autonomia");
+                	idFabricante=getIdFabricante(fabricante);*///Conseguir id del fabricante
+              	
                 	//Damos los datos al avion
                 	avion.setNombre(resultSet.getString("NombreAvion"));
                 	avion.setMatricula(resultSet.getString("MatriculaAvion"));                	

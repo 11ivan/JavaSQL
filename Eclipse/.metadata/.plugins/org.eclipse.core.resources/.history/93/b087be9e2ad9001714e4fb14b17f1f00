@@ -40,9 +40,7 @@ public class GestoraConsultas {
     Postcondiciones: Se ha cargado en un ResultSet el contenido de la tabla EX_Actualizaciones
     */
     public ResultSet cargaContenidoActualizaciones(){     
-        String consulta="SELECT MatriculaAvion, Latitud, Longitud, Descripcion, Tipo, AccidenteDefinitivo,"
-        				+ "NombreAvion, Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, "
-        				+ "Asientos_x_Fila, Autonomia FROM EX_Actualizaciones";	
+        String consulta="SELECT * FROM EX_Actualizaciones";				//CAMBIAR//
         Statement sentencia;
         ResultSet resultSet=null;
         
@@ -72,6 +70,12 @@ public class GestoraConsultas {
         if(resultSet!=null){
             try {            	           	
                 while(resultSet.next()){
+                    //1. Las modificaciones en la tabla AS_Aviones mediante un resultSet actualizable
+                	//excepto las bajas que usaremos el procedimiento almacenado del ej 1
+                    
+                    //2. Para las bajas usaremos el procedimiento almacenado del ejercicio 1. con prepared o callable
+                    
+                    //3. Las inserciones en AS_Incidencias y el resto las puedes hacer como mejor te parezca.
             	
                 	//Damos los datos al avion
                 	avion.setNombre(resultSet.getString("NombreAvion"));

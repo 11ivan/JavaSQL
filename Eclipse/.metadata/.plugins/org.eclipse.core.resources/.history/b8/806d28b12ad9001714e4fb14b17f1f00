@@ -72,6 +72,12 @@ public class GestoraConsultas {
         if(resultSet!=null){
             try {            	           	
                 while(resultSet.next()){
+                    //1. Las modificaciones en la tabla AS_Aviones mediante un resultSet actualizable
+                	//excepto las bajas que usaremos el procedimiento almacenado del ej 1
+                    
+                    //2. Para las bajas usaremos el procedimiento almacenado del ejercicio 1. con prepared o callable
+                    
+                    //3. Las inserciones en AS_Incidencias y el resto las puedes hacer como mejor te parezca.
             	
                 	//Damos los datos al avion
                 	avion.setNombre(resultSet.getString("NombreAvion"));
