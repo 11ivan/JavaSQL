@@ -45,7 +45,8 @@ public class GestoraConsultas {
             sentencia=conexion.getConnect().createStatement();
             resultSet=sentencia.executeQuery(consulta);                                          
         } catch (SQLException e) {
-        	System.out.println(e.getMessage());        }      
+        	System.out.println(e.getMessage());        
+        }      
         return resultSet;
     }
     
@@ -74,6 +75,7 @@ public class GestoraConsultas {
         short filas;
         short asientosXFila;
         int autonomia;
+        short idFabricante=0;
         
         if(resultSet!=null){
             try {            	           	
@@ -99,38 +101,23 @@ public class GestoraConsultas {
                 	filas=resultSet.getShort("Filas");
                 	asientosXFila=resultSet.getShort("Asientos_x_Fila");
                 	autonomia=resultSet.getInt("Autonomia");
-                	
+                	idFabricante=getIdFabricante(fabricante);//Conseguir id del fabricante
                 	
                     //Si los datos del avion estan a null excepto la matricula es que el avion ya esta registrado
-                	if(matriculaAvion!=null && nombreAvion==null && fabricante==null) {//LA MATRICULA NUNCA ES NULL
-                		//Conseguir id del fabricante
-                		short idFabricante=getIdFabricante(fabricante);
-                		
-                		//Hay que comprobar si hay accidente definitivo para efectuar la baja y saber si está activo
-                		if(accidenteDefinitivo) {        		
-                    		//Efectuaríamos la baja con el procedimiento del ej 1
-                			executeBajaAvion(matriculaAvion);
-                		}
-                		//Insertamos la incidencia
-                		insertInToIncidencias(matriculaAvion, latitud, longitud, descripcion, tipo);
-                	}else {//Sino es que hay que registrar al avión en la base de datos
-                		//Conseguir idFabricante
-                		short idFabricante=getIdFabricante(fabricante);
-                		
-                		//Hay que comprobar si hay accidente definitivo para efectuar la baja y saber si está activo
-                		if(accidenteDefinitivo) {
-                			//Insertamos nuevo avion
-                    		insertInToAviones(matriculaAvion, nombreAvion, idFabricante, modelo, fechaFabricacion, fechaEntrada, filas, asientosXFila, autonomia, true);
-                    		//Y efectuaríamos la baja con el procedimiento del ej 1
-                    		executeBajaAvion(matriculaAvion);
-                		}else {
-                    		insertInToAviones(matriculaAvion, nombreAvion, idFabricante, modelo, fechaFabricacion, fechaEntrada, filas, asientosXFila, autonomia, false);
-                		}
-                		//Insertamos la incidencia
-                		insertInToIncidencias(matriculaAvion, latitud, longitud, descripcion, tipo);                		
-                	}//fin sino                	                   
+                	if(nombreAvion!=null && fabricante!=null) {//LA MATRICULA NUNCA ES NULL
+            			//Insertamos nuevo avion
+                		insertInToAviones(matriculaAvion, nombreAvion, idFabricante, modelo, fechaFabricacion, fechaEntrada, filas, asientosXFila, autonomia, true);               	
+                	}                	
+                	//Insertamos la incidencia
+            		insertInToIncidencias(matriculaAvion, latitud, longitud, descripcion, tipo);      
+            		if(accidenteDefinitivo) {
+                		//Y efectuaríamos la baja con el procedimiento del ej 1
+                		executeBajaAvion(matriculaAvion);
+            		}
                 }//fin mientras
+                
                deleteActualizaciones();
+               
             } catch (SQLException e) {        	
             	System.out.println(e.getMessage());
             }
@@ -140,9 +127,7 @@ public class GestoraConsultas {
     /*
     Proposito: Realiza una insercion en la tabla AS_Aviones mediante un resultSet actualizable
     Precondiciones: No hay
-    Entradas: String matricula, String nombre, short idFabricante, String modelo
-     		  java.sql.Date fechaFabricacion, java.sql.Date fechaEntrada, short filas
-     		  short asientosXFila, int autonomia, boolean activo
+    Entradas: Un objeto Avion
     Salidas: Un entero con la cantidad de filas afectadas
     Postcondiciones: Se ha insertado en la Tabla AS_Aviones los nuevos datos
     */
@@ -229,7 +214,7 @@ public class GestoraConsultas {
     /*
     Proposito: Realiza una insercion en la table AS_Incidencias 
     Precondiciones: No hay
-    Entradas: No hay
+    Entradas: Un objeto Incidencia
     Salidas: Un entero con la cantidad de filas afectadas
     Postcondiciones: Se ha insertado en la Tabla BI_Mascotas los nuevos datos
     */

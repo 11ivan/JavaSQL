@@ -1,0 +1,6 @@
+
+public class Avion {
+	//String matricula, String nombre, short idFabricante, String modelo, 
+	//java.sql.Date fechaFabricacion, java.sql.Date fechaEntrada, short filas,
+	//short asientosXFila, int autonomia, boolean activo 
+}

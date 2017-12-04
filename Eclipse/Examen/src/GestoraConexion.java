@@ -38,18 +38,18 @@ public class GestoraConexion {
 	}
         
         
-        public void close(){
-            try {
-                conexionBaseDatos.close();
-            } catch (SQLException ex) {
-                //Logger.getLogger(GestoraConexion.class.getName()).log(Level.SEVERE, null, ex);
-                //ex.printStackTrace();
-                System.out.println(ex.getMessage());
-            }
+    public void close(){
+        try {
+            conexionBaseDatos.close();
+        } catch (SQLException ex) {
+            //Logger.getLogger(GestoraConexion.class.getName()).log(Level.SEVERE, null, ex);
+            //ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
-        
-        public Connection getConnect(){
-            return conexionBaseDatos;
-        }
+    }
+    
+    public Connection getConnect(){
+        return conexionBaseDatos;
+    }
     
 }
