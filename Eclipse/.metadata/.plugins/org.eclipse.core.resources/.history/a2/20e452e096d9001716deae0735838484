@@ -132,25 +132,31 @@ public class GestoraConsultas {
     */
     public int insertInToAviones(Avion avion){
         int filasAfectadas=0;
+        //String cadenaSentencia="Select Matricula, Nombre, ID_Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, Asientos_x_Fila, Autonomia, Activo From AS_Aviones";     
+        //Statement sentencia;
+        ResultSet resultSetAct;
         try{
-        	if(this.resultSetAct.next()){        		
+        	//sentencia=conexion.getConnect().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+        	//resultSetAct=sentencia.executeQuery(cadenaSentencia);
+        	resultSetAct=gestoraSentencias.getSentenciaResultSetActualizable().executeQuery(cadenaSentencia);
+        	if(resultSetAct.next()){        		
         		//Posicionamos el cursor en la fila de inserción
-        		this.resultSetAct.moveToInsertRow();
+        		resultSetAct.moveToInsertRow();
         		
         		//Cambiamos los datos para esa fila
-        		this.resultSetAct.updateString("Matricula", avion.getMatricula());
-        		this.resultSetAct.updateString("Nombre", avion.getNombre());
-        		this.resultSetAct.updateShort("ID_Fabricante", avion.getIdFabricante());
-        		this.resultSetAct.updateString("Modelo", avion.getModelo());
-        		this.resultSetAct.updateDate("Fecha_Fabricacion", avion.getFechaFabricacion());        		
-        		this.resultSetAct.updateDate("Fecha_Entrada", avion.getFechaEntrada());
-        		this.resultSetAct.updateInt("Filas", avion.getFilas());
-        		this.resultSetAct.updateInt("Asientos_x_Fila", avion.getAsientosXFila());
-        		this.resultSetAct.updateInt("Autonomia", avion.getAutonomia());
-        		this.resultSetAct.updateBoolean("Activo", avion.isActivo());
+        		resultSetAct.updateString("Matricula", avion.getMatricula());
+        		resultSetAct.updateString("Nombre", avion.getNombre());
+        		resultSetAct.updateShort("ID_Fabricante", avion.getIdFabricante());
+        		resultSetAct.updateString("Modelo", avion.getModelo());
+        		resultSetAct.updateDate("Fecha_Fabricacion", avion.getFechaFabricacion());        		
+        		resultSetAct.updateDate("Fecha_Entrada", avion.getFechaEntrada());
+        		resultSetAct.updateInt("Filas", avion.getFilas());
+        		resultSetAct.updateInt("Asientos_x_Fila", avion.getAsientosXFila());
+        		resultSetAct.updateInt("Autonomia", avion.getAutonomia());
+        		resultSetAct.updateBoolean("Activo", avion.isActivo());
 
         		//Y la insertamos
-        		this.resultSetAct.insertRow();
+        		resultSetAct.insertRow();
         	}
         }catch(SQLException e){
         	System.out.println(e.getMessage());

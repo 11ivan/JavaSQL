@@ -46,15 +46,7 @@ public class GestoraSentencias {
 	}
 
 	
-	public ResultSet getResultSetActualizable() {
-		ResultSet resultSetAct=null;
-		try {
-			resultSetAct=sentenciaResultSetActualizable.executeQuery("Select Matricula, Nombre, ID_Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, Asientos_x_Fila, Autonomia, Activo From AS_Aviones");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return resultSetAct;
-	}
+	
 	
 	
 }
