@@ -30,7 +30,7 @@ public class Avion {
 	private Integer filas;
 	private Integer asientosXFila;
 	private Integer autonomia;
-	private String activo;
+	private char activo;
 	
 	
 	public Avion() {
@@ -44,7 +44,7 @@ public class Avion {
 		filas=0;
 		asientosXFila=0;
 		autonomia=0;
-		activo="";		
+		activo='';		
 	}
 
 
@@ -138,12 +138,12 @@ public class Avion {
 	}
 
 
-	public String getActivo() {
+	public char getActivo() {
 		return activo;
 	}
 
 
-	public void setActivo(String activo) {
+	public void setActivo(char activo) {
 		this.activo = activo;
 	}
 	

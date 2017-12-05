@@ -91,11 +91,13 @@ public class GestoraConsultas {
                 	avion.setFilas(resultSet.getInt("Filas"));               	
                 	avion.setAsientosXFila(resultSet.getInt("Asientos_x_Fila"));
                 	avion.setAutonomia(resultSet.getInt("Autonomia"));
+                	//Activo es char S o N
                 	if(resultSet.getBoolean("AccidenteDefinitivo")) {
-                		avion.setActivo("N");
+                		avion.setActivo('N');
                 	}else {
-                		avion.setActivo("S");
+                		avion.setActivo('S');
                 	}
+                	//avion.getActivo(resultSet.getBoolean("AccidenteDefinitivo"));
                 	
                 	//Damos los datos a la incidencia
                 	incidencia.setMatriculaAvion(avion.getMatricula());
@@ -111,7 +113,7 @@ public class GestoraConsultas {
                 	}                	
                 	//Insertamos la incidencia
             		insertInToIncidencias(incidencia);      
-            		if(avion.getActivo()=="N") {
+            		if(avion.getActivo()=='N') {
                 		//Y efectuaríamos la baja con el procedimiento del ej 1
                 		executeBajaAvion(avion.getMatricula());
             		}
@@ -150,7 +152,7 @@ public class GestoraConsultas {
         		this.resultSetAct.updateInt("Filas", avion.getFilas());
         		this.resultSetAct.updateInt("Asientos_x_Fila", avion.getAsientosXFila());
         		this.resultSetAct.updateInt("Autonomia", avion.getAutonomia());
-        		this.resultSetAct.updateString("Activo", avion.getActivo());
+        		this.resultSetAct.updateBoolean("Activo", avion.isActivo());
 
         		//Y la insertamos
         		this.resultSetAct.insertRow();

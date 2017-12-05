@@ -91,11 +91,13 @@ public class GestoraConsultas {
                 	avion.setFilas(resultSet.getInt("Filas"));               	
                 	avion.setAsientosXFila(resultSet.getInt("Asientos_x_Fila"));
                 	avion.setAutonomia(resultSet.getInt("Autonomia"));
+                	//Activo es char S o N
                 	if(resultSet.getBoolean("AccidenteDefinitivo")) {
                 		avion.setActivo("N");
                 	}else {
                 		avion.setActivo("S");
                 	}
+                	//avion.getActivo(resultSet.getBoolean("AccidenteDefinitivo"));
                 	
                 	//Damos los datos a la incidencia
                 	incidencia.setMatriculaAvion(avion.getMatricula());

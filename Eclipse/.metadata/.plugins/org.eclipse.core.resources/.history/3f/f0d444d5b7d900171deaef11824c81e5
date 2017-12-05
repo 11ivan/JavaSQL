@@ -9,6 +9,7 @@ public class GestoraSentencias {
 	private PreparedStatement preparedStatementSelectIdFabricante;
 	private CallableStatement callableStatementExecBajaAvion;
 	private PreparedStatement preparedstatementInsertInToIncidencias;
+	//String cadenaSentencia="Select Matricula, Nombre, ID_Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, Asientos_x_Fila, Autonomia, Activo From AS_Aviones";     
 	private Statement sentenciaResultSetActualizable;
 	private GestoraConexion conexion;
 	

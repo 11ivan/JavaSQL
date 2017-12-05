@@ -17,7 +17,7 @@ public class Main {
         try{
             gestoraConsultas.getGestoraConexion().connect();
             gestoraConsultas.routerXD();
-            gestoraConsultas.getGestoraConexion().close();
+            gestoraConsultas.getGestoraConexion().close();       
             System.out.println("Si ha llegado aquí es por que está bien. Fiuuu");
         }catch(Exception e){
             System.out.println(e.getMessage());
