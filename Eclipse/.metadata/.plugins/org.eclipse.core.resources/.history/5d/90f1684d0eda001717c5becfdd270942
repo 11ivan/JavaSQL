@@ -1,0 +1,61 @@
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class GestoraSentencias {
+
+	//Propiedades
+	private PreparedStatement preparedStatementSelectIdFabricante;
+	private CallableStatement callableStatementExecBajaAvion;
+	private PreparedStatement preparedstatementInsertInToIncidencias;
+	private Statement sentenciaResultSetActualizable;
+	
+	//Getters
+	public PreparedStatement getPreparedStatementSelectIdFabricante() {
+		return preparedStatementSelectIdFabricante;
+	}
+
+
+	public CallableStatement getCallableStatementExecBajaAvion() {
+		return callableStatementExecBajaAvion;
+	}
+
+
+	public PreparedStatement getPreparedstatementInsertInToIncidencias() {
+		return preparedstatementInsertInToIncidencias;
+	}
+
+	public Statement getSentenciaResultSetActualizable() {
+		return sentenciaResultSetActualizable;
+	}
+
+	//Devuelve un ResultSet Actualizable con el contenido de AS_Aviones
+	public ResultSet getResultSetActualizable() {
+		ResultSet resultSetAct=null;
+		try {
+			resultSetAct=sentenciaResultSetActualizable.executeQuery("Select Matricula, Nombre, ID_Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, Asientos_x_Fila, Autonomia, Activo From AS_Aviones");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return resultSetAct;
+	}
+
+	public void preparaSentencias(GestoraConexion conexion){
+		//GestoraConexion conexion=new GestoraConexion();		
+		try {
+			//conexion.connect();//Lo he intentado de diversas formas y no se me ocurre otra que abrir la conexión aquí para preparar las sentencias
+			preparedStatementSelectIdFabricante=conexion.getConnect().prepareStatement("SELECT ID_Fabricante FROM AS_Fabricantes where Nombre=?");
+			callableStatementExecBajaAvion=conexion.getConnect().prepareCall("exec BajaAvion ?");
+			preparedstatementInsertInToIncidencias=conexion.getConnect().prepareStatement("insert INTO AS_Incidencias (Avion, Latitud, Longitud, Descripcion, Tipo) values( ?, ?, ?, ?, ?)");
+			sentenciaResultSetActualizable=conexion.getConnect().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			//conexion.close();//Y debo mantenerla abierta porque si la cierro aquí más tarde me da error por conexión cerrada
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+	
+	
+}

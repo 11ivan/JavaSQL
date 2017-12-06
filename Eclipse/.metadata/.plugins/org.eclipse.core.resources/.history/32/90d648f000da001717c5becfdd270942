@@ -1,0 +1,36 @@
+
+/**
+ *
+ * @author icastillo
+ */
+public class Main {
+    public static void main(String[] args){
+    	
+        GestoraConsultas gestoraConsultas=new GestoraConsultas();
+        Integer[] tablaFilasAfectadas;
+        //GestoraConexion conexion=new GestoraConexion();
+        GestoraMain gestoraMain=new GestoraMain();
+        
+        try{
+        	//Conectamos con la base de datos
+            gestoraConsultas.getGestoraConexion().connect();//Opto por usar la propiedad GestoraConexion para no tener que abrir la conexion más de una vez
+        	//conexion.connect();
+                       
+            //Actualizamos la base de datos
+            //tablaFilasAfectadas=gestoraConsultas.actualizarDB();
+        	tablaFilasAfectadas=gestoraMain.actualizarDB();
+            
+            //Cerramos la conexion con la base de datos
+            gestoraConsultas.getGestoraConexion().close();
+        	//conexion.close();
+            
+            //Mostrar filas afectadas
+            System.out.println("Se ha insertado "+tablaFilasAfectadas[0]+" avion/es");
+            System.out.println("Se ha insertado "+tablaFilasAfectadas[1]+" incidencia/s");
+            System.out.println("Se dió de baja "+tablaFilasAfectadas[2]+" avion/es");
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+}

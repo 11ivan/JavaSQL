@@ -1,5 +1,4 @@
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /*
  * Propiedades Básicas:
@@ -21,6 +20,8 @@ import java.util.GregorianCalendar;
 */
 
 public class Avion {
+	
+	//Propiedades
 	private String matricula;
 	private String nombre;
 	private short idFabricante;
@@ -32,9 +33,8 @@ public class Avion {
 	private Integer autonomia;
 	private String activo;
 	
-	
+	//Contructores
 	public Avion() {
-		//GregorianCalendar gregorio=new GregorianCalendar();
 		matricula="";
 		nombre="";
 		idFabricante=-1;
@@ -46,8 +46,24 @@ public class Avion {
 		autonomia=0;
 		activo="";		
 	}
+	
+	public Avion(String matricula, String nombre, short idFabricante, String modelo, java.sql.Date fechaFabricacion,
+			     java.sql.Date fechaEntrada, Integer filas, Integer asientosXFila, Integer autonomia, String activo)
+	{
+		this.matricula=matricula;
+		this.nombre=nombre;
+		this.idFabricante=idFabricante;
+		this.modelo=modelo;
+		this.fechaFabricacion=fechaFabricacion;
+		this.fechaEntrada=fechaEntrada;
+		this.filas=filas;
+		this.asientosXFila=asientosXFila;
+		this.autonomia=autonomia;
+		this.activo=activo;
+	}
 
-
+	
+	//Getters and Setters
 	public String getMatricula() {
 		return matricula;
 	}

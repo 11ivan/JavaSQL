@@ -10,6 +10,8 @@
  * 
  * */
 public class Incidencia {
+	
+	//Propiedades
 	private String matriculaAvion;
 	private java.math.BigDecimal latitud;
 	private java.math.BigDecimal longitud;
@@ -17,6 +19,7 @@ public class Incidencia {
 	private String tipo;
 	
 	
+	//Contructores
 	public Incidencia() {
 		matriculaAvion="";
 		latitud=new java.math.BigDecimal(0.0);
@@ -24,8 +27,16 @@ public class Incidencia {
 		descripcion="";
 		tipo="";
 	}
+	
+	public Incidencia(String matriculaAvion, java.math.BigDecimal latitud, java.math.BigDecimal longitud, String descripcion, String tipo){
+		this.matriculaAvion=matriculaAvion;
+		this.latitud=latitud;
+		this.longitud=longitud;
+		this.descripcion=descripcion;
+		this.tipo=tipo;
+	}
 
-
+	//Getters and Setters
 	public String getMatriculaAvion() {
 		return matriculaAvion;
 	}

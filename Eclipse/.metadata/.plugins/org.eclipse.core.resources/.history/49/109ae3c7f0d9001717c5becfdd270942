@@ -1,0 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//package Mascotas;
+
+
+/**
+ *
+ * @author icastillo
+ */
+public class Main {
+    public static void main(String[] args){
+        GestoraConsultas gestoraConsultas=new GestoraConsultas();
+        Integer[] tablaFilasAfectadas;
+        try{
+            gestoraConsultas.getGestoraConexion().connect();
+            tablaFilasAfectadas=gestoraConsultas.actualizarDB();
+            gestoraConsultas.getGestoraConexion().close();
+            //System.out.println("Si ha llegado aquí es por que está bien. Fiuuu");
+            System.out.println("Se ha insertado "+tablaFilasAfectadas[0]+" avion/es");
+            System.out.println("Se ha insertado "+tablaFilasAfectadas[1]+" incidencia/s");
+            System.out.println("Se dió de baja "+tablaFilasAfectadas[2]+" avion/es");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+}
