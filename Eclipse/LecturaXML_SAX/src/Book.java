@@ -92,7 +92,10 @@ public class Book {
 	}
 	
 	
-	
+	public String toString() {
+		String cadena= title+","+language+","+category+","+authors+","+year+","+price;
+		return cadena;
+	}
 	
 	
 }
