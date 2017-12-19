@@ -24,7 +24,7 @@ public class Avion {
 	//Propiedades
 	private String matricula;
 	private String nombre;
-	private short idFabricante;
+	private String nombreFabricante;
 	private String modelo; 
 	private java.sql.Date fechaFabricacion;
 	private java.sql.Date fechaEntrada;
@@ -37,7 +37,7 @@ public class Avion {
 	public Avion() {
 		matricula="";
 		nombre="";
-		idFabricante=-1;
+		nombreFabricante="";
 		modelo="";
 		fechaFabricacion=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 		fechaEntrada=new java.sql.Date(Calendar.getInstance().getTimeInMillis());
@@ -47,12 +47,12 @@ public class Avion {
 		activo="";		
 	}
 	
-	public Avion(String matricula, String nombre, short idFabricante, String modelo, java.sql.Date fechaFabricacion,
+	public Avion(String matricula, String nombre, String nombreFabricante, String modelo, java.sql.Date fechaFabricacion,
 			     java.sql.Date fechaEntrada, Integer filas, Integer asientosXFila, Integer autonomia, String activo)
 	{
 		this.matricula=matricula;
 		this.nombre=nombre;
-		this.idFabricante=idFabricante;
+		this.nombreFabricante=nombreFabricante;
 		this.modelo=modelo;
 		this.fechaFabricacion=fechaFabricacion;
 		this.fechaEntrada=fechaEntrada;
@@ -84,13 +84,13 @@ public class Avion {
 	}
 
 
-	public short getIdFabricante() {
-		return idFabricante;
+	public String getNombreFabricante() {
+		return nombreFabricante;
 	}
 
 
-	public void setIdFabricante(short idFabricante) {
-		this.idFabricante = idFabricante;
+	public void setNombreFabricante(String nombreFabricante) {
+		this.nombreFabricante = nombreFabricante;
 	}
 
 

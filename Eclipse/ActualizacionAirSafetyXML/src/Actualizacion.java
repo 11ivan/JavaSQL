@@ -8,7 +8,7 @@ public class Actualizacion {
 	//Constructores
 	public Actualizacion() {
 		incidencia=new Incidencia();
-		//avion=new Avion();
+		avion=new Avion();
 	}
 	
 	

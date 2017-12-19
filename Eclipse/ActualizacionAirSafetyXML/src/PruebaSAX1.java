@@ -11,8 +11,7 @@ public class PruebaSAX1 {
     GestionContenido gestor;
     InputSource archivoXML;
     
-    public PruebaSAX1 (String nombreArchivo){
-    	ArrayList<> listadoLibros=new ArrayList<>();
+    public PruebaSAX1 (String nombreArchivo){   	
         try {
             procesadorXML = XMLReaderFactory.createXMLReader();
         } catch (SAXException ex) {

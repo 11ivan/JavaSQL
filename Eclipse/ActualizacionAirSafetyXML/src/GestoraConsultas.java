@@ -96,7 +96,7 @@ public class GestoraConsultas {
         		//Cambiamos los datos para esa fila
         		this.resultSetAct.updateString("Matricula", avion.getMatricula());
         		this.resultSetAct.updateString("Nombre", avion.getNombre());
-        		this.resultSetAct.updateShort("ID_Fabricante", avion.getIdFabricante());
+        		this.resultSetAct.updateShort("ID_Fabricante", getIdFabricante(avion.getNombreFabricante()));
         		this.resultSetAct.updateString("Modelo", avion.getModelo());
         		this.resultSetAct.updateDate("Fecha_Fabricacion", avion.getFechaFabricacion());        		
         		this.resultSetAct.updateDate("Fecha_Entrada", avion.getFechaEntrada());
