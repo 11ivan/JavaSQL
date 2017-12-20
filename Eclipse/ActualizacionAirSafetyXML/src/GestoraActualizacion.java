@@ -3,8 +3,8 @@ import java.sql.SQLException;
 public class GestoraActualizacion {
 
     /*
-   Proposito: Recorre el ResultSet de EX_Actualizaciones y dependidendo del estado de las 
-   		   columnas NombreAvion y Fabricante realizaremos inserciones en la tabla AS_Incidencias,
+   Proposito: Recibe un objeto actualizacion y dependidendo del estado de las 
+   		   propiedades NombreAvion y Fabricante realizaremos inserciones en la tabla AS_Incidencias,
    		   AS_Aviones y/o daremos de baja a un avion/es y los futuros vuelos asociados si ha tenido
    		   un Accidente Definitivo
    Precondiciones: No hay
@@ -17,27 +17,24 @@ public class GestoraActualizacion {
    
          
        try {            	
-    	   gestoraConsultas.getGestoraConexion().getConnect().setAutoCommit(false);
-    	   
-           	
+    	   gestoraConsultas.getGestoraConexion().getConnect().setAutoCommit(false);   	             	
            	
             //Si los datos del avion estan a null excepto la matricula es que el avion ya esta registrado
            	if(actualizacion.getAvion().getNombre()!=null && !actualizacion.getAvion().getNombreFabricante().equals("")) {
        			//Insertamos nuevo avion
            		gestoraConsultas.insertInToAviones(actualizacion.getAvion());               	
            	}                	
+           	
            	//Insertamos la incidencia
-           	gestoraConsultas.insertInToIncidencias(actualizacion.getIncidencia());      
+           	gestoraConsultas.insertInToIncidencias(actualizacion.getIncidencia()); 
+           	
        		if(actualizacion.getAvion().getActivo()=="N") {
            		//Y efectuaríamos la baja con el procedimiento del ej 1
        			gestoraConsultas.executeBajaAvion(actualizacion.getAvion().getMatricula());
        		}
-           
-          //Eliminamos los  datos de la tabla EX_Actualizaciones
-           //gestoraConsultas.deleteActualizaciones();
-          
+                     
        } catch (SQLException e) {        	
-       	System.out.println(e.getMessage()+"ES AQUI actulizarDB");
+       	System.out.println(e.getMessage());
        }	   
    }
  

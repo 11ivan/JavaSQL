@@ -22,4 +22,5 @@
 <fullyQualifiedTypeName name="GestoraConsultas"/>
 <fullyQualifiedTypeName name="GestoraActualizacion"/>
 <fullyQualifiedTypeName name="Actualizacion"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
 </qualifiedTypeNameHistroy>

@@ -4,7 +4,7 @@ import java.util.Calendar;
  * Propiedades Básicas:
  * 		Matricula: Cadena, Consultable, Modificable
  * 		Nombre: Cadena, Consultable, Modificable
- * 		idFabricante: short, Consultable, Modificable
+ * 		Nombre Fabricante: Cadena, Consultable, Modificable
  * 		Modelo: Cadena, Consultable, Modificable
  * 		Filas: short, Consultable, Modificable
  * 		Asientos por fila: short 

@@ -52,31 +52,7 @@ public class GestoraConsultas {
     public void cargaResultSetActualizable(){
     	resultSetAct=gestoraSentencias.getResultSetActualizable();
     }
-    
-    /*
-    Proposito: Carga en un ResultSet en contenido de la tabla EX_Actualizaciones
-    Precondiciones: No hay
-    Entradas: No hay
-    Salidas: Un ResultSet con el resultado de la consulta a EX_Actualizaciones
-    Postcondiciones: Se ha cargado en un ResultSet el contenido de la tabla EX_Actualizaciones
-    */
-    public ResultSet getResulSetActualizaciones(){     
-        String consulta="SELECT MatriculaAvion, Latitud, Longitud, Descripcion, Tipo, AccidenteDefinitivo,"
-        				+ "NombreAvion, Fabricante, Modelo, Fecha_Fabricacion, Fecha_Entrada, Filas, "
-        				+ "Asientos_x_Fila, Autonomia FROM EX_Actualizaciones";	
-        Statement sentencia;
-        ResultSet resultSet=null;
         
-        try {
-            sentencia=conexion.getConnect().createStatement();
-            resultSet=sentencia.executeQuery(consulta);                                          
-        } catch (SQLException e) {
-        	System.out.println(e.getMessage());        
-        }      
-        return resultSet;
-    }
-        
-    
     /*
     Proposito: Realiza una insercion en la tabla AS_Aviones mediante un resultSet actualizable
     Precondiciones: No hay
