@@ -23,4 +23,7 @@
 <fullyQualifiedTypeName name="GestoraActualizacion"/>
 <fullyQualifiedTypeName name="Actualizacion"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.example.newxmlschema.Atomos"/>
+<fullyQualifiedTypeName name="org.example.newxmlschema.Atomo"/>
 </qualifiedTypeNameHistroy>
