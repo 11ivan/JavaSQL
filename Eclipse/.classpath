@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="LecturaRecetasXMLSAX/src/|ActualizacionAirSafetyXML/src/|LecturaJASXBAtomoXML/src/|Examen/src/|LecturaXML_SAX/src/|Mascotas/src/" kind="src" path=""/>
+	<classpathentry kind="src" path="ActualizacionAirSafetyXML/src"/>
+	<classpathentry kind="src" path="Examen/src"/>
+	<classpathentry kind="src" path="LecturaJASXBAtomoXML/src"/>
+	<classpathentry kind="src" path="LecturaRecetasXMLSAX/src"/>
+	<classpathentry kind="src" path="LecturaXML_SAX/src"/>
+	<classpathentry kind="src" path="Mascotas/src"/>
+	<classpathentry kind="output" path="ActualizacionAirSafetyXML/bin"/>
+</classpath>
