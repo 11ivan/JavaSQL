@@ -45,5 +45,14 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=Bichos</property>
     <property name="hibernate.connection.username">manolito</property>
     <property name="hibernate.connection.password">1234</property>
+    <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+    <property name="hibernate.show_sql">true</property>
+    
+    <mapping class="hibernateexample.BIClientes"/>
+    <mapping class="hibernateexample.BIMascotasEnfermedades"/>
+    <mapping class="hibernateexample.BIVisitas"/>
+    <mapping class="hibernateexample.BIMascotas"/>
+    <mapping class="hibernateexample.BIEnfermedades"/>
+
   </session-factory>
 </hibernate-configuration>

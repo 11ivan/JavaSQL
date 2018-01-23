@@ -23,18 +23,17 @@ public class HibernateExample {
        
      SessionFactory instancia = HibernateUtil.buildSessionFactory();
         Session session = instancia.openSession();
-        Query q = session.createQuery("from Empleados");
+        Query q = session.createQuery("from BIClientes");
  
-        Iterator<Empleados> it = q.iterate();
- 
-        Empleados e;
+        Iterator<BIClientes> it = q.iterate();
+        BIClientes e;
+        
         while (it.hasNext()) {
             e = it.next();
-            System.out.println(e.getNomEmp() + " " + e.getSalEmp());
+            System.out.println(e.getNombre()+ " " + e.getDireccion());
         }
  
         session.close();
     }   
         
-    }
 }
