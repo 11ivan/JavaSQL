@@ -21,7 +21,7 @@ public class HibernateExample {
      */
     public static void main(String[] args) {
        
-     SessionFactory instancia = HibernateUtil.buildSessionFactory();
+        SessionFactory instancia = HibernateUtil.buildSessionFactory();
         Session session = instancia.openSession();
         Query q = session.createQuery("from BIClientes");
  
