@@ -18,47 +18,49 @@ import org.hibernate.Transaction;
  */
 public class GestoraRegalos {
     
-        public void crearCriaturita (String nombre, short id){
+        public void crearRegalo (Regalos regalo, short id){
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
-        tran = ses.beginTransaction();
-        Regalos nene = new Regalos();
-        //nene.setNombre(nombre);
-        nene.setId(id);
-		// Al ejecutar el método save el objeto se convierte en persistente
-        ses.save(nene);
+        tran = ses.beginTransaction();    
+        regalo.setId(id);
+        
+        // Al ejecutar el método save el objeto se convierte en persistente
+        ses.save(regalo);
         tran.commit();
         ses.close();
     }
-    public void cambiarNombre (String nombre, short id){
-        Regalos nene;
+        
+    public void actualizarRegalo (Regalos regalo, short id){
+        //Regalos regaloActualizado;
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
         tran = ses.beginTransaction();
-        nene = new Regalos (id);
-        //nene.setNombre (nombre);
-        ses.update (nene);
+        //regaloActualizado = new Regalos (id);      
+        ses.update (regalo);
         tran.commit();
         ses.close();
     }
-    public void borrar (short id){
-        Regalos nene;
+    
+    public void borrarRegalo (short id){
+        Regalos regalo;
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
         tran = ses.beginTransaction();
-        nene = new Regalos (id);
-        ses.delete (nene);
+        regalo = new Regalos (id);
+        ses.delete (regalo);
         tran.commit();
         ses.close();
     }
-    public Regalos recuperar (short id){
-        Regalos nene;
+    
+    public Regalos getRegalo (short id){
+        Regalos regalo;
         Session ses = HibernateUtil.getSessionFactory().openSession();
-        nene = (Regalos)ses.get(Regalos.class, id);
+        regalo = (Regalos)ses.get(Regalos.class, id);
         ses.close();
-        return nene;
+        return regalo;
     }
-    public List<Regalos> getCriaturitas(){
+    
+    public List<Regalos> getListaRegalos(){
         Query consulta;
         List<Regalos> todasCria;
         // No necesitamos datos de la conexion porque ya están definidos en el hibernate.cfg.xml
@@ -70,18 +72,25 @@ public class GestoraRegalos {
         return todasCria;
 
     }
-    public void listaCriaturitas (List<Regalos> lista){
+    
+    public void muestraListaRegalos (){
+        List<Regalos> lista=this.getListaRegalos();
         Session ses = HibernateUtil.getSessionFactory().openSession();
         for (Regalos actual:lista){
             // El objeto es detached y con esto pasa a persistent
             ses.update(actual);
-            System.out.println(cadenaCriaturita(actual));
+            System.out.println(cadenaRegalo(actual));
         }
         ses.close();
     }
-    public String cadenaCriaturita (Regalos c){
+    
+    public String cadenaRegalo (Regalos c){
         String cad="";
-        //cad = "ID: "+c.getId() + "  Nombre: " + c.getNombre();
+        String nombrePropietario="";//max = (a > b) ? a : b;
+        //Short idCriaturitaRecogido=c.getGoesTo().getId();
+        //nombrePropietario = (idCriaturitaRecogido==null) ? "No tiene" : c.getGoesTo().getNombre();
+        nombrePropietario = (c.getGoesTo()==null) ? "No tiene" : c.getGoesTo().getNombre();
+        cad = "ID: "+c.getId() + "  Denominacion: " + c.getDenominacion() + "   Propietario: " +  nombrePropietario ;
         return cad;
     }
     

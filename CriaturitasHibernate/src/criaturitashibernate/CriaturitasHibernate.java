@@ -8,6 +8,7 @@ package criaturitashibernate;
 import Clases.Criaturitas;
 import Clases.Regalos;
 import Gestoras.GestoraMain;
+import Gestoras.GestoraRegalos;
 import Gestoras.ManejadorCriaturitas;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,6 +53,7 @@ public class CriaturitasHibernate {
         Short idRegaloParseado=null;
         Regalos regalo=null;
         Criaturitas criaturita=null;
+        GestoraRegalos gestoraRegalos=new GestoraRegalos();
         
         //MOSTRAR MENU LEER Y VALIDAR OPCION
         do{
@@ -74,15 +76,17 @@ public class CriaturitasHibernate {
                             //MOSTRAR REGALOS LEER Y VALIDAR IDREGALO
                             do{
                                 System.out.println("Introduzca el ID del regalo que quiere cambiar de propietario\n");
-                                manejadorCriaturitas.listaCriaturitas(manejadorCriaturitas.getCriaturitas());//es regalos
+                                gestoraRegalos.muestraListaRegalos();
                                 try {
                                     idRegalo=br.readLine();
-                                    idRegaloParseado=gestoraMain.parseStringToShort(idRegalo);/////////////////////
-                                    //regalo = manejadorCriaturitas.recuperar(idCriaturitaParseado);
+                                    idRegaloParseado=gestoraMain.parseStringToShort(idRegalo);
+                                    if(idRegaloParseado!=null){
+                                        regalo = gestoraRegalos.getRegalo(idRegaloParseado);
+                                    }
                                 } catch (IOException ex) {
                                     System.out.println(ex.getMessage());
                                 }
-                            }while(idRegaloParseado==null /*|| regalo==null */);//es con regalos////////////
+                            }while(regalo==null);
                             
                             //MOSTRAR CRIATURITAS LEER Y VALIDAR IDCRIATURITA
                             do{
@@ -98,24 +102,27 @@ public class CriaturitasHibernate {
                                     System.out.println(ex.getMessage());
                                 }
                             }while(criaturita==null);
-
+                            
+                            //
+                            regalo.setGoesTo(criaturita);
+                            //ges
                 break;
                 
                 
                 case "2"://INSERTAR NUEVA CRIATURITA CON DOS NUEVOS REGALOS
-                    
+                        
                     
                 break;
                 
                 
                 case "3"://INSERTAR NUEVO REGALO Y ASIGNAR A CRIATURITA EXISTENTE
-                    
+                        
                     
                 break;
                 
                    
                 case "4"://BORRAR UNA CRIATURITA Y TODOS SUS REGALOS 
-                   
+                        
                     
                 break;
             }//FIN SEGUN
