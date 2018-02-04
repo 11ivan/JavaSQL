@@ -65,9 +65,10 @@ public class ManejadorCriaturitas {
     
     public void listaCriaturitas (List<Criaturitas> lista){
         Session ses = HibernateUtil.getSessionFactory().openSession();
+        System.out.println("ID\tNombre");
         for (Criaturitas actual:lista){
             // El objeto es detached y con esto pasa a persistent
-            ses.update(actual);
+            ses.update(actual);       
             System.out.println(cadenaCriaturita(actual));
         }
         ses.close();
@@ -75,7 +76,7 @@ public class ManejadorCriaturitas {
     
     public String cadenaCriaturita (Criaturitas c){
         String cad;
-        cad = "ID: "+c.getId() + "  Nombre: " + c.getNombre();
+        cad = c.getId() +"\t"+ c.getNombre();
         return cad;
     }
 

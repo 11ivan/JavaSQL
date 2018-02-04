@@ -47,7 +47,7 @@ public class GestoraMain {
     
     */
     public short parseStringToShort(String cadena){
-        Short _short=null;
+        Short _short=-1;
         
         try{
             _short=Short.parseShort(cadena);
@@ -55,5 +55,17 @@ public class GestoraMain {
         return _short;
     }
     
+    /*
+    
+    */
+    public boolean validaSN(String cadena){
+        boolean valido=false;
+        
+        if(cadena.toUpperCase().charAt(0)=='S' || cadena.toUpperCase().charAt(0)=='N'){
+            valido=true;
+        }
+        
+        return valido;
+    }
     
 }

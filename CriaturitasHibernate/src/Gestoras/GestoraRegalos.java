@@ -30,13 +30,22 @@ public class GestoraRegalos {
         ses.close();
     }
         
-    public void actualizarRegalo (Regalos regalo, short id){
-        //Regalos regaloActualizado;
+    public void actualizarRegaloCriaturita (Regalos regalo){
+        Regalos regaloActualizado;
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
         tran = ses.beginTransaction();
-        //regaloActualizado = new Regalos (id);      
-        ses.update (regalo);
+        regaloActualizado = new Regalos (regalo.getId());     
+        regaloActualizado.setGoesTo(regalo.getGoesTo());
+        //regaloActualizado.setAlto(regalo.getAlto());
+        //regaloActualizado.setAncho(regalo.getAncho());
+        regaloActualizado.setDenominacion(regalo.getDenominacion());
+        //regaloActualizado.setEdadMinima(regalo.getEdadMinima());
+        //regaloActualizado.setLargo(regalo.getLargo());
+        regaloActualizado.setPrecio(regalo.getPrecio());
+        //regaloActualizado.setTipo(regalo.getTipo());
+        regaloActualizado.setSuperficie(null);
+        ses.update (regaloActualizado);
         tran.commit();
         ses.close();
     }

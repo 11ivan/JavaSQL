@@ -5,6 +5,7 @@
  */
 package Clases;
 
+import exceptions.ExcepcionRegalos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
@@ -93,8 +94,15 @@ public class Regalos implements Serializable {
         return denominacion;
     }
 
-    public void setDenominacion(String denominacion) {
-        this.denominacion = denominacion;
+    public void setDenominacion(String denominacion) throws ExcepcionRegalos{
+        
+        if(denominacion.replaceAll(" ", "").length()==0 ){
+            throw new ExcepcionRegalos("La denominacion no puede estar vacía");
+        }else if(denominacion.length()<=50){
+            throw new ExcepcionRegalos("La longitud debe ser menor o igual a 50 caracteres");
+        }else{
+            this.denominacion = denominacion;
+        }
     }
 
     public Short getAncho() {
@@ -133,8 +141,14 @@ public class Regalos implements Serializable {
         return edadMinima;
     }
 
-    public void setEdadMinima(short edadMinima) {
-        this.edadMinima = edadMinima;
+    public void setEdadMinima(short edadMinima) throws ExcepcionRegalos{
+        if(edadMinima<0){
+            throw new ExcepcionRegalos("La denominacion no puede estar vacía");
+        }else if(denominacion.length()<=50){
+            throw new ExcepcionRegalos("La longitud debe ser menor o igual a 50 caracteres");
+        }else{
+            this.edadMinima = edadMinima;
+        }       
     }
 
     public BigDecimal getPrecio() {
