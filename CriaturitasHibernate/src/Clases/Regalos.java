@@ -62,7 +62,7 @@ public class Regalos implements Serializable {
     @Basic(optional = false)
     @Column(name = "Precio")
     private BigDecimal precio;
-    @Column(name = "Superficie")
+    @Column(name = "Superficie", updatable = false, insertable = false)
     private Short superficie;
     @JoinColumn(name = "GoesTo", referencedColumnName = "ID")
     @ManyToOne
@@ -98,7 +98,7 @@ public class Regalos implements Serializable {
         
         if(denominacion.replaceAll(" ", "").length()==0 ){
             throw new ExcepcionRegalos("La denominacion no puede estar vacía");
-        }else if(denominacion.length()<=50){
+        }else if(denominacion.length()>50){
             throw new ExcepcionRegalos("La longitud debe ser menor o igual a 50 caracteres");
         }else{
             this.denominacion = denominacion;
@@ -141,14 +141,14 @@ public class Regalos implements Serializable {
         return edadMinima;
     }
 
-    public void setEdadMinima(short edadMinima) throws ExcepcionRegalos{
-        if(edadMinima<0){
+    public void setEdadMinima(short edadMinima) /*throws ExcepcionRegalos*/{
+        /*if(edadMinima<0){
             throw new ExcepcionRegalos("La denominacion no puede estar vacía");
         }else if(denominacion.length()<=50){
-            throw new ExcepcionRegalos("La longitud debe ser menor o igual a 50 caracteres");
-        }else{
+            throw new ExcepcionRegalos("La longitud debe ser menor o igual a 50 caracteres");*/
+        //}else{
             this.edadMinima = edadMinima;
-        }       
+        //}       
     }
 
     public BigDecimal getPrecio() {

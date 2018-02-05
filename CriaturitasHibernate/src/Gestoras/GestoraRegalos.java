@@ -7,7 +7,10 @@ package Gestoras;
 
 import Clases.Regalos;
 import Util.HibernateUtil;
+import exceptions.ExcepcionRegalos;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,11 +21,11 @@ import org.hibernate.Transaction;
  */
 public class GestoraRegalos {
     
-        public void crearRegalo (Regalos regalo, short id){
+        public void crearRegalo (Regalos regalo){
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
         tran = ses.beginTransaction();    
-        regalo.setId(id);
+        regalo.setId(getSiguienteID());
         
         // Al ejecutar el método save el objeto se convierte en persistente
         ses.save(regalo);
@@ -31,23 +34,42 @@ public class GestoraRegalos {
     }
         
     public void actualizarRegaloCriaturita (Regalos regalo){
-        Regalos regaloActualizado;
+        //Regalos regaloActualizado;
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
         tran = ses.beginTransaction();
-        regaloActualizado = new Regalos (regalo.getId());     
-        regaloActualizado.setGoesTo(regalo.getGoesTo());
-        //regaloActualizado.setAlto(regalo.getAlto());
-        //regaloActualizado.setAncho(regalo.getAncho());
-        regaloActualizado.setDenominacion(regalo.getDenominacion());
+        //regaloActualizado = new Regalos (regalo.getId());     
+        //regaloActualizado.setGoesTo(regalo.getGoesTo());
+        //try {
+            //regaloActualizado.setAlto(regalo.getAlto());
+            //regaloActualizado.setAncho(regalo.getAncho());
+            //regaloActualizado.setDenominacion(regalo.getDenominacion());
+        /*} catch (ExcepcionRegalos ex) {
+            Logger.getLogger(GestoraRegalos.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
         //regaloActualizado.setEdadMinima(regalo.getEdadMinima());
         //regaloActualizado.setLargo(regalo.getLargo());
-        regaloActualizado.setPrecio(regalo.getPrecio());
+        //regaloActualizado.setPrecio(regalo.getPrecio());
         //regaloActualizado.setTipo(regalo.getTipo());
-        regaloActualizado.setSuperficie(null);
-        ses.update (regaloActualizado);
+        //regaloActualizado.setSuperficie(null);
+        ses.update (regalo);
         tran.commit();
         ses.close();
+    }
+    
+    public Short getSiguienteID(){
+        Short id=-1;
+        Query consulta;
+        List<Regalos> listaRegalos;
+        // No necesitamos datos de la conexion porque ya están definidos en el hibernate.cfg.xml
+        Session ses = HibernateUtil.getSessionFactory().openSession();
+        String ordenConsulta ="from Regalos";
+        consulta = ses.createQuery(ordenConsulta);
+        listaRegalos=consulta.list();
+        id=listaRegalos.get(listaRegalos.size()-1).getId();
+        ses.close();
+        id++;
+        return id;
     }
     
     public void borrarRegalo (short id){
@@ -79,7 +101,6 @@ public class GestoraRegalos {
         todasCria=consulta.list();
         ses.close();
         return todasCria;
-
     }
     
     public void muestraListaRegalos (){

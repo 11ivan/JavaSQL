@@ -14,6 +14,7 @@ import exceptions.ExcepcionRegalos;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,7 +95,7 @@ public class CriaturitasHibernate {
                                         do{
                                             System.out.println("No se encontro un Regalo con ese id \n ?Quiere volver a introducirlo? S/N");
                                             respuesta=br.readLine();
-                                        }while(gestoraMain.validaSN(respuesta));//metodo
+                                        }while(!gestoraMain.validaSN(respuesta));//metodo
                                         if(respuesta.toLowerCase().charAt(0)=='n'){
                                             tipoSalida=1;
                                         }
@@ -122,7 +123,7 @@ public class CriaturitasHibernate {
                                             do{
                                                 System.out.println("No se encontro una Criaturita con ese id \n ?Quiere volver a introducirlo? S/N");
                                                 respuesta=br.readLine();
-                                            }while(gestoraMain.validaSN(respuesta));//metodo
+                                            }while(!gestoraMain.validaSN(respuesta));//metodo
 
                                             if(respuesta.toLowerCase().charAt(0)=='n'){
                                                 tipoSalida=1;
@@ -177,6 +178,7 @@ public class CriaturitasHibernate {
                                     System.out.println("Introduzca el nombre del regalo");
                                     try{
                                         regalo.setDenominacion(br.readLine());
+                                        tipoSalida=2;
                                     }catch(ExcepcionRegalos error){
                                         tipoSalida=0;
                                         System.out.println(error);
@@ -186,27 +188,36 @@ public class CriaturitasHibernate {
                                 }while(tipoSalida==0);
                                 
                                 System.out.println("Introduzca la edad mínima");
+                                try{
+                                    regalo.setEdadMinima(Short.parseShort(br.readLine()));
+                                }catch(IOException e){
+                                    System.err.println(e.getMessage());
+                                }
                                 
-                                System.out.println("Introduzca el precio");
-                                
+                                System.out.println("Introduzca el precio");          
+                                try {
+                                    regalo.setPrecio(BigDecimal.valueOf(Double.parseDouble(br.readLine())));
+                                } catch (IOException ex) {
+                                    Logger.getLogger(CriaturitasHibernate.class.getName()).log(Level.SEVERE, null, ex);
+                                }                           
                                 
                                 //Alto, Ancho, Largo Opcionales (Pero si pone uno de ellos debe ponerlos todos)
                     
                                 //MOSTRAR CRIATURITAS LEER Y VALIDAR IDCRIATURITA
                                 do{
-                                    System.out.println("Introduzca el ID de la Criaturita que quiere eliminar\n");
+                                    System.out.println("Introduzca el ID de la Criaturita que asignar el regalo\n");
                                     manejadorCriaturitas.listaCriaturitas(manejadorCriaturitas.getCriaturitas());
                                     try {
                                         idCriaturita=br.readLine();
                                         idCriaturitaParseado=gestoraMain.parseStringToShort(idCriaturita);
-                                        if(idCriaturitaParseado!=null){
+                                        if(!idCriaturitaParseado.equals(-1)){
                                             criaturita=manejadorCriaturitas.recuperar(idCriaturitaParseado);
                                         }
                                         if(criaturita==null){
                                             do{
                                                 System.out.println("No se encontro una Criaturita con ese id \n ?Quiere volver a introducirlo? S/N");
                                                 respuesta=br.readLine();
-                                            }while(gestoraMain.validaSN(respuesta));//metodo
+                                            }while(!gestoraMain.validaSN(respuesta));//metodo
 
                                             if(respuesta.toLowerCase().charAt(0)=='n'){
                                                 tipoSalida=1;
@@ -220,8 +231,8 @@ public class CriaturitasHibernate {
                                     }
                                 }while(tipoSalida==0);
                                 if(tipoSalida==2){
-
-
+                                    regalo.setGoesTo(criaturita);
+                                    gestoraRegalos.crearRegalo(regalo);
                                 }
                                 tipoSalida=0;
                 break;
@@ -235,14 +246,14 @@ public class CriaturitasHibernate {
                                 try {
                                     idCriaturita=br.readLine();
                                     idCriaturitaParseado=gestoraMain.parseStringToShort(idCriaturita);
-                                    if(idCriaturitaParseado!=null){
+                                    if(!idCriaturitaParseado.equals(-1)){
                                         criaturita=manejadorCriaturitas.recuperar(idCriaturitaParseado);
                                     }
                                     if(criaturita==null){
                                         do{
                                             System.out.println("No se encontro una Criaturita con ese id \n ?Quiere volver a introducirlo? S/N");
                                             respuesta=br.readLine();
-                                        }while(gestoraMain.validaSN(respuesta));//metodo
+                                        }while(!gestoraMain.validaSN(respuesta));//metodo
                                         
                                         if(respuesta.toLowerCase().charAt(0)=='n'){
                                             tipoSalida=1;
@@ -257,10 +268,16 @@ public class CriaturitasHibernate {
                             }while(tipoSalida==0);
                             if(tipoSalida==2){
                                 //Se eliminará la criaturita y sus regalos
-                                coleccionRegalos=criaturita.getRegalosCollection();
+                                if(criaturita.getRegalosCollection()!=null){
+                                    coleccionRegalos=criaturita.getRegalosCollection();//Puede que la criaturita no tenga regalos y de error al recuperar su lista de regalos
+                                }
+                                /*try{
+                                    coleccionRegalos=criaturita.getRegalosCollection();
+                                }catch(NullPointerException e){
+                                    System.err.println("La Criaturita no tiene ningun regalo");
+                                }*/
                                 if(coleccionRegalos!=null && coleccionRegalos.size()>0){
-                                    for(Regalos regaloTemp:coleccionRegalos){                                 
-                                        
+                                    for(Regalos regaloTemp:coleccionRegalos){                                                                         
                                         gestoraRegalos.borrarRegalo(regaloTemp.getId());
                                     }
                                 }
