@@ -6,6 +6,7 @@ import java.util.*;
 import org.hibernate.*;
 
 public class ManejadorCriaturitas {
+    
     public void crearCriaturita (String nombre, short id){
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();

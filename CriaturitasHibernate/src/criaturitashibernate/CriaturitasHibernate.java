@@ -164,7 +164,54 @@ public class CriaturitasHibernate {
                             //INSERTAR CRIATURITA
                     
                             //LEER Y VALIDAR DATOS REGALOS
-                            
+                            //LEER Y VALIDAR DATOS DEL REGALO
+                            regalo=new Regalos();
+
+                            //Denominacion, Edad Minima, Precio Obligatorios
+                            do{
+                                System.out.println("Introduzca el nombre del regalo");
+                                try{
+                                    regalo.setDenominacion(br.readLine());
+                                    tipoSalida=2;
+                                }catch(ExcepcionRegalos error){
+                                    tipoSalida=0;
+                                    System.out.println(error);
+                                }catch(IOException e){
+                                    System.out.println(e.getMessage());
+                                }                                           
+                            }while(tipoSalida==0);
+
+                            System.out.println("Introduzca la edad mínima");
+                            try{
+                                regalo.setEdadMinima(Short.parseShort(br.readLine()));
+                            }catch(IOException e){
+                                System.err.println(e.getMessage());
+                            }
+
+                            System.out.println("Introduzca el precio");          
+                            try {
+                                regalo.setPrecio(BigDecimal.valueOf(Double.parseDouble(br.readLine())));
+                            } catch (IOException ex) {
+                                Logger.getLogger(CriaturitasHibernate.class.getName()).log(Level.SEVERE, null, ex);
+                            }                           
+
+                            //Alto, Ancho, Largo Opcionales (Pero si pone uno de ellos debe ponerlos todos)
+                            do{
+                                System.err.println("?Quiere introducir las dimensiones?");
+                                try {
+                                    respuesta=br.readLine();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(CriaturitasHibernate.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }while(!gestoraMain.validaSN(respuesta));                                               
+                            if(respuesta.toLowerCase().charAt(0)=='s'){
+                                //Leer y "validar" Alto
+
+                                //Leer y "validar" Ancho
+
+                                //Leer y "validar" Largo
+                            }
+                    
                             //INSERTAR REGALOS
                 break;
                 
@@ -202,7 +249,22 @@ public class CriaturitasHibernate {
                                 }                           
                                 
                                 //Alto, Ancho, Largo Opcionales (Pero si pone uno de ellos debe ponerlos todos)
-                    
+                                do{
+                                    System.err.println("?Quiere introducir las dimensiones?");
+                                    try {
+                                        respuesta=br.readLine();
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(CriaturitasHibernate.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }while(!gestoraMain.validaSN(respuesta));                                               
+                                if(respuesta.toLowerCase().charAt(0)=='s'){
+                                    //Leer y "validar" Alto
+                                    
+                                    //Leer y "validar" Ancho
+                                    
+                                    //Leer y "validar" Largo
+                                }
+                                
                                 //MOSTRAR CRIATURITAS LEER Y VALIDAR IDCRIATURITA
                                 do{
                                     System.out.println("Introduzca el ID de la Criaturita que asignar el regalo\n");
@@ -291,6 +353,8 @@ public class CriaturitasHibernate {
             do{
                 gestoraMain.muestraMenuPrincipal();
                 try {
+                    //br.reset();
+                    opcionElegida="";
                     opcionElegida=br.readLine();
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
