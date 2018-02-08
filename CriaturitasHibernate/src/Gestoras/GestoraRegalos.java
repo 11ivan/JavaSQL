@@ -83,6 +83,17 @@ public class GestoraRegalos {
         ses.close();
     }
     
+    public void borrarRegalo (Regalos regalo){
+        //Regalos regalo;
+        Transaction tran;
+        Session ses = HibernateUtil.getSessionFactory().openSession();
+        tran = ses.beginTransaction();
+        //regalo = new Regalos (id);
+        ses.delete (regalo);
+        tran.commit();
+        ses.close();
+    }
+    
     public Regalos getRegalo (short id){
         Regalos regalo;
         Session ses = HibernateUtil.getSessionFactory().openSession();

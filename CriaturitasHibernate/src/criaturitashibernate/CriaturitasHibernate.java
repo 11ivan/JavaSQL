@@ -340,7 +340,7 @@ public class CriaturitasHibernate {
                                 }*/
                                 if(coleccionRegalos!=null && coleccionRegalos.size()>0){
                                     for(Regalos regaloTemp:coleccionRegalos){                                                                         
-                                        gestoraRegalos.borrarRegalo(regaloTemp.getId());
+                                        gestoraRegalos.borrarRegalo(regaloTemp);
                                     }
                                 }
                                 manejadorCriaturitas.borrar(criaturita.getId());

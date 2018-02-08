@@ -45,7 +45,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=Navidad</property>
     <property name="hibernate.connection.username">manolito</property>
     <property name="hibernate.connection.password">1234</property>
-    
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <mapping class="Clases.Criaturitas"/>
     <mapping class="Clases.Regalos"/>
   </session-factory>
