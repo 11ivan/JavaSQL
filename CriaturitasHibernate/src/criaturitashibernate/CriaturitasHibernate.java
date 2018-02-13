@@ -58,7 +58,7 @@ public class CriaturitasHibernate {
         Regalos regalo;
         Criaturitas criaturita;
         GestoraRegalos gestoraRegalos=new GestoraRegalos();
-        int tipoSalida=0;//El tipo de salida es 1 cuando se decide salir por voluntad del usuario, 2 cuando se decide salir porque todo es correcto y 0 si no se puede salir
+        int tipoSalida=0;//El tipo de salida es 1 cuando se decide salir por decision del usuario, 2 cuando se decide salir porque todo es correcto y 0 si no se puede salir
         String respuesta="";
         Collection<Regalos> coleccionRegalos=null;
         
