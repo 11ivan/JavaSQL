@@ -5,6 +5,7 @@
  */
 package gestoras;
 
+import hibernateclases.Matrimonios;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,27 +19,49 @@ public class GestoraMatrimonios {
     
     //RESTRICCIONES Y FALLOS A PROBAR PARA INTRODUCIR EN EL LOG
 /*
-Un matrimonio que incluya un id de Ciudadane que no existe
-·
-Un matrimonio que incluya un ciudadane que ya esté casade
-·
-Un matrimonio en el que uno de los contrayentes haya fallecido
-·
-Un matrimonio con una fecha futura
-·
-Un divorcio para un matrimonio que no existe
+·Un matrimonio que incluya un id de Ciudadane que no existe
+·Un matrimonio que incluya un ciudadane que ya esté casade
+·Un matrimonio en el que uno de los contrayentes haya fallecido
+·Un matrimonio con una fecha futura
+·Un divorcio para un matrimonio que no existe
 */
+    
     
     /*
     Propósito: Inserta un nuevo matrimonio en la base de datos.
-    Precondiciones:
-    Entradas:
-    Salidas:
-    Postcondiciones:
+    Precondiciones: Ninguna de las personas en el matrimonio deben estar casados 
+                    o muertos y deben existir.
+    Entradas: Un objeto Matrimonio
+    Salidas: Un entero con las filas afectadas
+    Postcondiciones:Se ha insertado un nuevo matrimonio 
     */
+    public void insertMatrimonio(Matrimonios matrimonios){
+        Transaction tran;
+        Session ses = HibernateUtil.getSessionFactory().openSession();
+        tran = ses.beginTransaction();    
+        // Al ejecutar el mÃ©todo save el objeto se convierte en persistente
+        ses.save(matrimonios);
+        tran.commit();
+        ses.close();
+    }
     
-    
-    
+    /*
+    Propósito: Inserta un nuevo matrimonio en la base de datos.
+    Precondiciones: Ninguna de las personas en el matrimonio deben estar casados 
+                    o muertos y deben existir.
+    Entradas: Un objeto Matrimonio
+    Salidas: Un entero con las filas afectadas
+    Postcondiciones:Se ha insertado un nuevo matrimonio 
+    */
+    public void actualizarMatrimonio (Matrimonios matrimonios){
+        //Regalos regaloActualizado;
+        Transaction tran;
+        Session ses = HibernateUtil.getSessionFactory().openSession();
+        tran = ses.beginTransaction();
+        ses.update (matrimonios);
+        tran.commit();
+        ses.close();
+    }
     
     
     
@@ -46,7 +69,6 @@ Un divorcio para un matrimonio que no existe
         Transaction tran;
         Session ses = HibernateUtil.getSessionFactory().openSession();
         tran = ses.beginTransaction();    
-        regalo.setId(getSiguienteID());
         
         // Al ejecutar el mÃ©todo save el objeto se convierte en persistente
         ses.save(regalo);
