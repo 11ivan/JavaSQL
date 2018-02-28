@@ -39,7 +39,7 @@ public class Leopolis2 {
         
         //TESTEOS
         Byte id=0;
-        gestoraDeGestoras.compruebaIdCiudadane(id);
+        gestoraDeGestoras.getCiudadane(id);
         
         
         

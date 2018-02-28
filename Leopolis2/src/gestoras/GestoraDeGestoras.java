@@ -9,7 +9,12 @@ import generated.Asiento;
 import generated.Ciudadane;
 import generated.Errores;
 import generated.Incidencia;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import leopolis2.Ciudadanes;
 import leopolis2.Matrimonios;
@@ -35,8 +40,10 @@ public class GestoraDeGestoras {
     
     
     public void actualizaDB(ArrayList<Asiento> listaAsientos){
-                  
+        boolean error;
+        
         for(int i=0;i<listaAsientos.size();i++){
+            error=false;
             switch(listaAsientos.get(i).getTipo()){
                 
                 case "Matrimonio":
@@ -47,20 +54,23 @@ public class GestoraDeGestoras {
                     if(getCiudadane(listaAsientos.get(i).getCiudadane().get(0).getID())!=null ||
                        getCiudadane(listaAsientos.get(i).getCiudadane().get(1).getID())!=null){
                         addIncidencia(0, listaAsientos.get(i));
+                        error=true;
                     }                    
                         
                     //Comprobar si los Ciudadane ya están casade
-                        //Si ya está casade se a?ade a la lista de incidencias
+                    //Si ya está casade se a?ade a la lista de incidencias
                         addIncidencia(1, listaAsientos.get(i));
                         
                     //Comprobar que no hayan fallecido
-                        //Si ya ha fallecido se a?ade a la lista de incidencias
+                    //Si ya ha fallecido se a?ade a la lista de incidencias
                         addIncidencia(2, listaAsientos.get(i));
                         
                     //Comprobar si es fecha futura
-                        //Si aun no se han casado se a?ade a la lista de incidencias
+                    //Si aun no se han casado se a?ade a la lista de incidencias
+                    if(!compruebaFechaFutura(listaAsientos.get(i).getFecha())){                      
                         addIncidencia(3, listaAsientos.get(i));
-                        
+                        error=true;
+                    }
                     //Si no se ha producido ninguna incidencia insertamos el matrimonio
                     insertMatrimonio(listaAsientos.get(i));
                     
@@ -204,23 +214,79 @@ public class GestoraDeGestoras {
         
         return ciudadane;
     }
+    
+    
     /*
-    Propósito: 
-    Precondiciones: 
-    Entradas: 
-    Salidas: 
-    Postcondiciones: 
+    Propósito: Inserta un nuevo matrimonio en la base de datos.
+    Precondiciones: Los id de Ciudadane deben existir
+                    Los Ciudadane no deben estar casados
+                    Los Ciudadane no deben estar fallecidos
+                    La fecha del matrimonio debe ser menor o igual a la actual
+    Entradas: Un objeto Asiento
+    Salidas: No hay
+    Postcondiciones:Se ha insertado un nuevo matrimonio 
     */
     public void insertMatrimonio(Asiento asiento){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        java.util.Date parsed = null;
         Matrimonios matrimonios=new Matrimonios();
-        //Ciudadanes ciudadanes1=new Ciudadanes();
         
-        //matrimonios.setId();  Obtener último id e incrmentar en 1
-        
+        //Metodo para obtener último id e incrmentar en 1
+        //matrimonios.setId();  
+        try {
+            parsed = dateFormat.parse(asiento.getFecha());
+            matrimonios.setFechamatrimonio(new java.sql.Date(parsed.getTime()));
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
         matrimonios.setIDConyuge1(getCiudadane(asiento.getCiudadane().get(0).getID()));//Obtener Ciudadanes mediante consulta
         matrimonios.setIDConyuge2(getCiudadane(asiento.getCiudadane().get(1).getID()));
         
         gestoraMatrimonios.insertMatrimonio(matrimonios);
     }
     
+    /*
+    Propósito: Comprueba si una fecha es mayor a la actual
+    Precondiciones: No hay
+    Entradas: Una cadena que será la fecha en formato dd-MM-yyyy
+    Salidas: Un booleano
+    Postcondiciones: El booleano será verdadero si la fecha es menor o igual a la actual y false sino
+    */
+    public boolean compruebaFechaFutura(String fechaCadena){
+        boolean vale=true;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        java.util.Date parsed = null;  
+        Calendar fechaActual = Calendar.getInstance();  
+        java.util.Date actual = new java.sql.Date(fechaActual.getTimeInMillis()); 
+        int comparacion=0;
+        
+        try {
+            parsed = dateFormat.parse(fechaCadena);           
+            comparacion=actual.compareTo(parsed);//Comparamos la fecha actual con la parseada
+            
+            //Si la fecha actual no es anterior o igual a la parseada
+            if(comparacion==-1){
+                vale=false;
+            }
+            
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }             
+        return vale;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
+
