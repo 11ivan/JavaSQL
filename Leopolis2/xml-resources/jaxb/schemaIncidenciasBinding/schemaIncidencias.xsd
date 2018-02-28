@@ -1,0 +1,68 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Ciudadane">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="Madre" minOccurs="0"/>
+        <xs:element ref="Padre" minOccurs="0"/>
+        <xs:element ref="Nombre" minOccurs="0"/>
+        <xs:element ref="Apellidos" minOccurs="0"/>
+        <xs:element ref="FechaNacimiento" minOccurs="0"/>
+        <xs:element ref="Sexo" minOccurs="0"/>
+        <xs:element ref="PastaFavorita" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute type="xs:byte" name="ID" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Fecha" type="xs:string"/>
+  <xs:element name="Asiento">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Ciudadane" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="Matrimonio" minOccurs="0"/>
+        <xs:element ref="Fecha" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute type="xs:short" name="ID" use="optional"/>
+      <xs:attribute type="xs:string" name="Tipo" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Madre">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:byte" name="ID"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Padre">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:byte" name="ID"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Nombre" type="xs:string"/>
+  <xs:element name="Apellidos" type="xs:string"/>
+  <xs:element name="FechaNacimiento" type="xs:string"/>
+  <xs:element name="Sexo" type="xs:string"/>
+  <xs:element name="PastaFavorita" type="xs:string"/>
+  <xs:element name="Matrimonio" type="xs:byte"/>
+  <xs:element name="Incidencia">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Asiento"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="Motivo" use="optional"/>
+      <xs:attribute type="xs:string" name="Fecha" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Errores">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Incidencia" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

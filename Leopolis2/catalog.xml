@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/ivan/Desktop/GitHub/JavaSQL/Leopolis2/../Leopolis/src/leopolis/archivos/schema.xsd" uri="xml-resources/jaxb/schemabinding/schema.xsd"/>
+    <system systemId="file:/C:/Users/ivan/Desktop/GitHub/JavaSQL/Leopolis2/archivos/schemaIncidencias.xsd" uri="xml-resources/jaxb/schemaIncidenciasBinding/schemaIncidencias.xsd"/>
+    <system systemId="file:/C:/Users/ivan/Desktop/GitHub/JavaSQL/Leopolis2/archivos/schema.xsd" uri="xml-resources/jaxb/schemabinding/schema.xsd"/>
+</catalog>

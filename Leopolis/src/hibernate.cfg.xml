@@ -46,11 +46,11 @@ Contributor(s):
     <property name="hibernate.connection.username">manolito</property>
     <property name="hibernate.connection.password">1234</property>
     
-    <mapping class="Ciudadanes"/>
-    <mapping class="Matrimonios"/>
-    <mapping class="Pastas"/>
-    
     <property name="hibernate.enable_lazy_load_no_trans">true</property>
+    <mapping class="hibernateclases.Ciudadades"/>
+    <mapping class="hibernateclases.Matrimonios"/>
+    <mapping class="hibernateclases.Pastas"/>
+
     
   </session-factory>
 </hibernate-configuration>

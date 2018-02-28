@@ -42,6 +42,6 @@ Contributor(s):
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="Leopolis" match-schema="dbo"/>
   <table-filter match-name="Matrimonios"/>
-  <table-filter match-name="Ciudadanes"/>
   <table-filter match-name="Pastas"/>
+  <table-filter match-name="Ciudadanes"/>
 </hibernate-reverse-engineering>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>		  
+<Errores>
+	<Incidencia Motivo="" Fecha="">
+		<Asiento ID="5001" Tipo="Matrimonio">
+			<Ciudadane ID="7"/>
+			<Ciudadane ID="54"/>
+			<Fecha>26/01/2018</Fecha>
+		</Asiento>
+	</Incidencia>
+	<Incidencia Motivo="" Fecha="">
+		<Asiento ID="5002" Tipo="Deceso">
+			<Ciudadane ID="12"/>
+			<Fecha>18/12/2017</Fecha>
+		</Asiento>
+	</Incidencia>
+	<Incidencia Motivo="" Fecha="">
+		<Asiento ID="5003" Tipo="Nacimiento">
+			<Ciudadane ID="58">
+				<Madre ID="29"/>
+				<Padre ID="50"/>
+				<Nombre>Anastasia</Nombre>
+				<Apellidos>Del Bosque Salvatierra</Apellidos>
+				<FechaNacimiento>24/01/2018</FechaNacimiento>
+				<Sexo>M</Sexo>
+				<PastaFavorita>Farfalle</PastaFavorita> 
+			</Ciudadane>
+		</Asiento>
+	</Incidencia>
+	<Incidencia Motivo="" Fecha="">
+		<Asiento ID="5004" Tipo="Divorcio">
+			<Matrimonio>5</Matrimonio>
+			<Fecha>24/12/2017</Fecha>
+		</Asiento>
+	</Incidencia>
+	<Incidencia Motivo="" Fecha="">
+		<Asiento ID="5005" Tipo="Matrimonio">
+			<Ciudadane ID="42"/>
+			<Ciudadane ID="44"/>
+			<Fecha>14/01/2018</Fecha>
+		</Asiento>
+	</Incidencia>
+	<Incidencia Motivo="" Fecha="">
+		<Asiento ID="5006" Tipo="Deceso">
+			<Ciudadane ID="17"/>
+			<Fecha>13/12/2017</Fecha>		
+		</Asiento>
+	</Incidencia>
+</Errores>
