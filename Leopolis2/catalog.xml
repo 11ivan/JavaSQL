@@ -3,4 +3,5 @@
     <system systemId="file:/C:/Users/ivan/Desktop/GitHub/JavaSQL/Leopolis2/../Leopolis/src/leopolis/archivos/schema.xsd" uri="xml-resources/jaxb/schemabinding/schema.xsd"/>
     <system systemId="file:/C:/Users/ivan/Desktop/GitHub/JavaSQL/Leopolis2/archivos/schemaIncidencias.xsd" uri="xml-resources/jaxb/schemaIncidenciasBinding/schemaIncidencias.xsd"/>
     <system systemId="file:/C:/Users/ivan/Desktop/GitHub/JavaSQL/Leopolis2/archivos/schema.xsd" uri="xml-resources/jaxb/schemabinding/schema.xsd"/>
+    <system systemId="file:/C:/Users/icastillo/Desktop/GitHub/JavaSQL/Leopolis2/archivos/schemaIncidencias.xsd" uri="xml-resources/jaxb/schemaIncidenciasBinding/schemaIncidencias.xsd"/>
 </catalog>

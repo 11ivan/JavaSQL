@@ -71,8 +71,11 @@ public class GestoraDeGestoras {
                         addIncidencia(3, listaAsientos.get(i));
                         error=true;
                     }
+                    
                     //Si no se ha producido ninguna incidencia insertamos el matrimonio
-                    insertMatrimonio(listaAsientos.get(i));
+                    if(!error){
+                        insertMatrimonio(listaAsientos.get(i));
+                    }
                     
                 break;
                                 
