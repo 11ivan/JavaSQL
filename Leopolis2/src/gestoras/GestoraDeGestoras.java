@@ -9,6 +9,7 @@ import generated.Asiento;
 import generated.Ciudadane;
 import generated.Errores;
 import generated.Incidencia;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,76 +24,61 @@ import org.hibernate.Session;
 
 /**
  *
- * @author icastillo
+ * @author icastillo 
+ * @author alag
  */
 public class GestoraDeGestoras {
     
     private GestoraMatrimonios gestoraMatrimonios;
     private ArrayList<Incidencia> listaIncidencias;
     private GestoraErrores gestoraErrores;
+    private Session sesion;
+    private Query consultaGetCiudadane;
+    
 
     
     public GestoraDeGestoras() {
-        this.gestoraMatrimonios = new GestoraMatrimonios();
+        //Abrimos la conexion con la base de datos LA ABRIMOS AQUÍ PORQUE LA NECESITO PARA ENVIARSELA A LA GESTORA DE MATRIMONIOS
+        this.sesion = HibernateUtil.getSessionFactory().openSession();
+        this.gestoraMatrimonios = new GestoraMatrimonios(sesion);
         this.listaIncidencias=new ArrayList<>();
-        this.gestoraErrores=new GestoraErrores();
+        this.gestoraErrores=new GestoraErrores();  
+        //Preparamos las consultas necesarias
+        preparaConsultas();
+    }
+      
+    /*
+    Propósito: Prepara las consultas necesarias 
+    Precondiciones: No hay
+    Entradas: No hay
+    Salidas: No hay
+    Postcondiciones: Se han preparado las consultas necesarias
+    */
+    private void preparaConsultas(){             
+        String ordenConsulta ="from Ciudadanes where ID=:idCiudadane";
+        consultaGetCiudadane = sesion.createQuery(ordenConsulta);
     }
     
-    
-    public void actualizaDB(ArrayList<Asiento> listaAsientos){
-        boolean error;
+    /*
+    Propósito:  
+    Precondiciones: 
+    Entradas:
+    Salidas: 
+    Postcondiciones: 
+    */
+    public void actualizaDB(ArrayList<Asiento> listaAsientos){    
         
         for(int i=0;i<listaAsientos.size();i++){
-            error=false;
             switch(listaAsientos.get(i).getTipo()){
                 
                 case "Matrimonio":
-                    //Se inserta un nuevo matrimonio
-                    
-                    //Comprobar id's de los Ciudadane
-                    //Sino existen se a?ade a la lista de incidencias
-                    if(getCiudadane(listaAsientos.get(i).getCiudadane().get(0).getID())!=null ||
-                       getCiudadane(listaAsientos.get(i).getCiudadane().get(1).getID())!=null){
-                        addIncidencia(0, listaAsientos.get(i));
-                        error=true;
-                    }                    
-                        
-                    //Comprobar si los Ciudadane ya están casade
-                    //Si ya está casade se a?ade a la lista de incidencias
-                        addIncidencia(1, listaAsientos.get(i));
-                        
-                    //Comprobar que no hayan fallecido
-                    //Si ya ha fallecido se a?ade a la lista de incidencias
-                        addIncidencia(2, listaAsientos.get(i));
-                        
-                    //Comprobar si es fecha futura
-                    //Si aun no se han casado se a?ade a la lista de incidencias
-                    if(!compruebaFechaFutura(listaAsientos.get(i).getFecha())){                      
-                        addIncidencia(3, listaAsientos.get(i));
-                        error=true;
-                    }
-                    
-                    //Si no se ha producido ninguna incidencia insertamos el matrimonio
-                    if(!error){
-                        insertMatrimonio(listaAsientos.get(i));
-                    }
-                    
+                    //Gestionamos el Matrimonio
+                    gestionaMatrimonio(listaAsientos.get(i));                  
                 break;
                                 
-                case "Divorcio":
-                    //Se actualiza la fecha de finalización del matrimonio                    
-                    
-                    //Un divorcio para un matrimonio que no existe
-                    addIncidencia(4, listaAsientos.get(i));
-                    
-                    //Un divorcio con una fecha anterior al matrimonio
-                    addIncidencia(5, listaAsientos.get(i));
-                    
-                    //Un divorcio para un matrimonio que ya estaba disuelto (divorcio anterior).
-                    addIncidencia(6, listaAsientos.get(i));
-                    
-                    //Si no se ha producido ninguna incidencia actualizamos la fecha de finalización del matrimonio
-                    
+                case "Divorcio":      
+                    //Gestionamos el Divorcio
+                    gestionaDivorcio(listaAsientos.get(i));                                  
                 break;
                 
                 case "Deceso":
@@ -107,8 +93,12 @@ public class GestoraDeGestoras {
             }//Fin segun
         }//Fin para
         
+        //Cerramos la conexion con la base de datos
+        sesion.close();
+        
         //Escribir las incidencias en LOG
-        //gestoraErrores.guardarListaErrores(archivoXML, listaIncidencias);
+        File archivoXML=new File("LOG.xml");
+        gestoraErrores.guardarListaErrores(archivoXML, listaIncidencias);
     }
     
     /*
@@ -142,7 +132,7 @@ public class GestoraDeGestoras {
                 motivoIncidencia="El Matrimonio no existe";
             break;     
             case 5:
-                motivoIncidencia="Fecha anterior a la actual";
+                motivoIncidencia="Fecha anterior a la que se casaron";
             break;         
             case 6:
                 motivoIncidencia="Ya estaban divorciados";
@@ -170,6 +160,8 @@ public class GestoraDeGestoras {
         listaIncidencias.add(incidencia);//a?adimos la incidencia a la lista de incidencias
     }
     
+    
+    
     /*TESTEADO
     Propósito: Comprueba si un id de Ciudadane existe en la base de datos
     Precondiciones: No hay
@@ -194,6 +186,87 @@ public class GestoraDeGestoras {
         return existe;
     }*/
     
+    
+    /*
+    Propósito: 
+    Precondiciones: 
+    Entradas: 
+    Salidas: 
+    Postcondiciones: 
+    */
+    public void gestionaMatrimonio(Asiento asiento){
+        Ciudadanes ciudadanes1=null;
+        Ciudadanes ciudadanes2=null;
+        ciudadanes1=getCiudadane(asiento.getCiudadane().get(0).getID());
+        ciudadanes2=getCiudadane(asiento.getCiudadane().get(1).getID());
+
+        //Comprobar id's de los Ciudadane
+        //Sino existen se a?ade a la lista de incidencias
+        if(ciudadanes1==null || ciudadanes2==null){
+            addIncidencia(0, asiento);
+        }else if( gestoraMatrimonios.getMatrimonioVigenteCiudadane(Byte.parseByte(String.valueOf(ciudadanes1.getId()))) !=null ||
+                  gestoraMatrimonios.getMatrimonioVigenteCiudadane(Byte.parseByte(String.valueOf(ciudadanes2.getId()))) !=null){
+            //Comprobar si los Ciudadane ya están casade
+            //Si ya está casade se a?ade a la lista de incidencias
+            addIncidencia(1, asiento);                     
+        }else if(ciudadanesFallecido(ciudadanes1) || ciudadanesFallecido(ciudadanes2)){
+            //Comprobar que no hayan fallecido
+            //Si ya ha fallecido se a?ade a la lista de incidencias
+            addIncidencia(2, asiento);
+        }else if(compruebaFechaFutura(asiento.getFecha())){   
+            //Comprobar si es fecha futura
+            //Si aun no se han casado se a?ade a la lista de incidencias
+            addIncidencia(3, asiento);
+        }else{
+            insertMatrimonio(asiento);
+        }
+    }
+    
+    /*
+    Propósito: 
+    Precondiciones: 
+    Entradas: 
+    Salidas: 
+    Postcondiciones: 
+    */
+    public void gestionaDivorcio(Asiento asiento){
+        Matrimonios matrimonio=null;
+        matrimonio=gestoraMatrimonios.getMatrimonio(asiento.getMatrimonio());
+        if(matrimonio==null){
+            //Un divorcio para un matrimonio que no existe
+            addIncidencia(4, asiento);
+        }else if(!compruebaFechaFutura(asiento.getFecha(), matrimonio.getFechamatrimonio())){
+            //Un divorcio con una fecha anterior al matrimonio
+            addIncidencia(5, asiento);
+        }else if(matrimonio.getFechafin()!=null){
+            //Un divorcio para un matrimonio que ya estaba disuelto (divorcio anterior).
+            addIncidencia(6, asiento);
+        }else{
+            //Si no se ha producido ninguna incidencia actualizamos la fecha de finalización del matrimonio
+            actualizaFechaFinalizacionMatrimonio(matrimonio, asiento.getFecha());
+        }   
+    }
+
+    /*
+    Propósito: Actualiza la fecha de finalizacion de un matrimonio de la base de datos
+    Precondiciones: El matrimonio existe y aun no tiene fecha de fin
+    Entradas: Un objeto Matrimonios y una cadena que será la fecha en formato dd/MM/yyyy
+    Salidas: No hay
+    Postcondiciones: Se ha actualizado la fecha de finalizacion del matrimonio
+    */
+    public void actualizaFechaFinalizacionMatrimonio(Matrimonios matrimonio, String fechaFinalizacion){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        java.util.Date parsed = null;
+        try {
+            parsed = dateFormat.parse(fechaFinalizacion);
+            matrimonio.setFechamatrimonio(new java.sql.Date(parsed.getTime()));
+            gestoraMatrimonios.actualizarMatrimonio(matrimonio);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    
     /*TESTEADO
     Propósito: Dado un id devuelve el Ciudadane asociado en la base de datos
     Precondiciones: No hay
@@ -203,18 +276,17 @@ public class GestoraDeGestoras {
     */
     public Ciudadanes getCiudadane(Byte idCiudadane){
         Ciudadanes ciudadane=null;
-        Query consulta;
+        //Query consulta;
         List<Ciudadanes> listaCiudadanes;
-        Session ses = HibernateUtil.getSessionFactory().openSession();//Mantener sesion abierta durante la actualizacion en vez de abrir y cerrar conexion en cada proceso
-        String ordenConsulta ="from Ciudadanes where ID=:idCiudadane";//A poder ser enviar sesion abierta para realizar inserciones y actualizaciones
-        consulta = ses.createQuery(ordenConsulta);//Tener las consultas preparadas en Constructor en vez de prepararlas en cada proceso
-        consulta.setParameter("idCiudadane", idCiudadane);
-        listaCiudadanes=consulta.list();
-        if(listaCiudadanes.isEmpty()){
+        //Session ses = HibernateUtil.getSessionFactory().openSession();//Mantener sesion abierta durante la actualizacion en vez de abrir y cerrar conexion en cada proceso
+        //String ordenConsulta ="from Ciudadanes where ID=:idCiudadane";//A poder ser enviar sesion abierta para realizar inserciones y actualizaciones
+        //consulta = sesion.createQuery(ordenConsulta);//Tener las consultas preparadas en Constructor en vez de prepararlas en cada proceso
+        consultaGetCiudadane.setParameter("idCiudadane", idCiudadane);
+        listaCiudadanes=consultaGetCiudadane.list();
+        if(!listaCiudadanes.isEmpty()){
             ciudadane=listaCiudadanes.get(0);
         }
-        ses.close();
-        
+        //ses.close();        
         return ciudadane;
     }
     
@@ -230,7 +302,7 @@ public class GestoraDeGestoras {
     Postcondiciones:Se ha insertado un nuevo matrimonio 
     */
     public void insertMatrimonio(Asiento asiento){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date parsed = null;
         Matrimonios matrimonios=new Matrimonios();
         
@@ -251,13 +323,13 @@ public class GestoraDeGestoras {
     /*
     Propósito: Comprueba si una fecha es mayor a la actual
     Precondiciones: No hay
-    Entradas: Una cadena que será la fecha en formato dd-MM-yyyy
+    Entradas: Una cadena que será la fecha en formato dd/MM/yyyy
     Salidas: Un booleano
-    Postcondiciones: El booleano será verdadero si la fecha es menor o igual a la actual y false sino
+    Postcondiciones: El booleano será verdadero si la fecha es mayor a la actual y false sino
     */
     public boolean compruebaFechaFutura(String fechaCadena){
-        boolean vale=true;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        boolean esMayor=false;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date parsed = null;  
         Calendar fechaActual = Calendar.getInstance();  
         java.util.Date actual = new java.sql.Date(fechaActual.getTimeInMillis()); 
@@ -265,20 +337,56 @@ public class GestoraDeGestoras {
         
         try {
             parsed = dateFormat.parse(fechaCadena);           
-            comparacion=actual.compareTo(parsed);//Comparamos la fecha actual con la parseada
-            
-            //Si la fecha actual no es anterior o igual a la parseada
+            comparacion=actual.compareTo(parsed);//Comparamos la fecha actual con la parseada            
+            //Si la fecha actual es anterior a la parseada
             if(comparacion==-1){
-                vale=false;
-            }
-            
+                esMayor=true;
+            }           
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }             
-        return vale;
+        return esMayor;
     }
     
+    /*
+    Propósito: Comprueba si una fecha es mayor a la fecha del matrimonio
+    Precondiciones: No hay
+    Entradas: Una cadena que será la fecha en formato dd/MM/yyyy
+    Salidas: Un booleano
+    Postcondiciones: El booleano será verdadero si la fecha es mayor a la fecha del matrimonio y false sino
+    */
+    public boolean compruebaFechaFutura(String fechaCadena, Date fechaMatrimonio){
+        boolean esMayor=false;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        java.util.Date parsed = null;  
+        java.util.Date matrimonio = new java.sql.Date(fechaMatrimonio.getTime()); 
+        int comparacion=0;
+        
+        try {
+            parsed = dateFormat.parse(fechaCadena);           
+            comparacion=matrimonio.compareTo(parsed);//Comparamos la fecha actual con la parseada            
+            //Si la fecha actual es anterior a la parseada
+            if(comparacion==-1){
+                esMayor=true;
+            }           
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }             
+        return esMayor;
+    }
     
+    /*
+    Propósito: Comprueba si un Ciudadanes ha fallecido
+    Precondiciones: El ciudadane debe existir
+    Entradas: Un objeto Ciudadanes
+    Salidas: Un booleano
+    Postcondiciones: El booleano será verdadero si el Ciudadanes ha fallecido y false sino
+    */
+    public boolean ciudadanesFallecido(Ciudadanes ciudadanes){
+        boolean fallecido=false;
+        fallecido = (ciudadanes.getFechamuerte()!=null) ? true : false;
+        return fallecido;
+    }
     
     
     

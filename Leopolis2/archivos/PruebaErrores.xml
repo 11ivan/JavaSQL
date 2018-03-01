@@ -1,0 +1,45 @@
+<!--	
+	1· Un matrimonio que incluya un id de Ciudadane que no existe => ID 60* OK
+    2· Un matrimonio que incluya un ciudadane que ya esté casade => IDCiudadane 12* OK
+    3· Un matrimonio en el que uno de los contrayentes haya fallecido => IDCiudadane 48 o 4* OK
+    4· Un matrimonio con una fecha futura => casamos al 7 con el 8 pasado mañana* OK
+    5· Un divorcio para un matrimonio que no existe => IDMatrimonio 30* OK
+    6· Un divorcio con una fecha anterior al matrimonio => IDMatrimonio 6 el 04/10/2014* OK
+    7· Un divorcio para un matrimonio que ya estaba disuelto (divorcio anterior). => IDMatrimonio 4 OK
+-->
+<?xml version="1.0" encoding="UTF-8"?>        
+<Anotaciones>
+	<Asiento ID="5001" Tipo="Matrimonio">
+		<Ciudadane ID="60"/>
+		<Ciudadane ID="54"/>
+		<Fecha>26/01/2018</Fecha>
+	</Asiento>
+	<Asiento ID="5002" Tipo="Matrimonio">
+		<Ciudadane ID="12"/>
+		<Ciudadane ID="54"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5003" Tipo="Matrimonio">
+		<Ciudadane ID="4"/>
+		<Ciudadane ID="54"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5005" Tipo="Matrimonio">
+		<Ciudadane ID="7"/>
+		<Ciudadane ID="8"/>
+		<Fecha>03/03/2018</Fecha>
+	</Asiento>
+
+	<Asiento ID="5004" Tipo="Divorcio">
+		<Matrimonio>5</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5004" Tipo="Divorcio">
+		<Matrimonio>6</Matrimonio>
+		<Fecha>04/10/2014</Fecha>
+	</Asiento>
+	<Asiento ID="5004" Tipo="Divorcio">
+		<Matrimonio>4</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+</Anotaciones>

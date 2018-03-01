@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>        
 <Anotaciones>
 	<Asiento ID="5001" Tipo="Matrimonio">
-		<Ciudadane ID="7"/>
+		<Ciudadane ID="60"/>
 		<Ciudadane ID="54"/>
 		<Fecha>26/01/2018</Fecha>
 	</Asiento>
-    	<Asiento ID="5002" Tipo="Deceso">
+	<Asiento ID="5002" Tipo="Matrimonio">
 		<Ciudadane ID="12"/>
+		<Ciudadane ID="54"/>
 		<Fecha>18/12/2017</Fecha>
 	</Asiento>
-	<Asiento ID="5003" Tipo="Nacimiento">
+	<Asiento ID="5003" Tipo="Matrimonio">
+		<Ciudadane ID="4"/>
+		<Ciudadane ID="54"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5004" Tipo="Matrimonio">
+		<Ciudadane ID="7"/>
+		<Ciudadane ID="8"/>
+		<Fecha>03/03/2018</Fecha>
+	</Asiento>
+
+	<Asiento ID="5005" Tipo="Divorcio">
+		<Matrimonio>30</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5006" Tipo="Divorcio">
+		<Matrimonio>6</Matrimonio>
+		<Fecha>04/10/2014</Fecha>
+	</Asiento>
+	<Asiento ID="5007" Tipo="Divorcio">
+		<Matrimonio>4</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+<!-- De aqui para arriba son mis pruebas  -->	
+	
+	<Asiento ID="5008" Tipo="Nacimiento">
 		<Ciudadane ID="58">
 			<Madre ID="29"/>
 			<Padre ID="50"/>
@@ -20,16 +46,7 @@
 			<PastaFavorita>Farfalle</PastaFavorita> 
 		</Ciudadane>
 	</Asiento>
-	<Asiento ID="5004" Tipo="Divorcio">
-		<Matrimonio>5</Matrimonio>
-		<Fecha>24/12/2017</Fecha>
-	</Asiento>
-	<Asiento ID="5005" Tipo="Matrimonio">
-		<Ciudadane ID="42"/>
-		<Ciudadane ID="44"/>
-		<Fecha>14/01/2018</Fecha>
-	</Asiento>
-    	<Asiento ID="5006" Tipo="Deceso">
+	<Asiento ID="5009" Tipo="Deceso">
 		<Ciudadane ID="17"/>
 		<Fecha>13/12/2017</Fecha>		
 	</Asiento>
