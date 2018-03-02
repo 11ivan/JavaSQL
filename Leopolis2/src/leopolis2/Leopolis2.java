@@ -5,6 +5,8 @@ import gestoras.GestoraAsientosJAXB;
 import gestoras.GestoraDeGestoras;
 import java.io.File;
 import java.util.ArrayList;
+import javax.xml.bind.JAXBElement;
+import org.hibernate.internal.jaxb.mapping.hbm.JaxbElementElement;
 
 /**
  PSEUDOCODIGO
@@ -34,6 +36,9 @@ public class Leopolis2 {
         gestoraAsientosJAXB.abrirListaAsientosJAXB(file1);
         gestoraAsientosJAXB.cargaListaAsientos();
         listaAsientos=gestoraAsientosJAXB.getListaAsientos();
+        
+        //JAXBElement jaxbEl=(JAXBElement) listaAsientos.get(7).getCiudadane().get(0).getContent().get(13);
+        //String pastaGansa = (String) jaxbEl.getValue();
         
         gestoraDeGestoras.actualizaDB(listaAsientos);
         

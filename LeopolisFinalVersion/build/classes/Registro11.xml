@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>        
+<Anotaciones>
+    	<Asiento ID="5002" Tipo="Deceso">
+		<Ciudadane ID="12"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5003" Tipo="Nacimiento">
+		<Ciudadane ID="1">
+			<Madre ID="29"/>
+			<Padre ID="50"/>
+			<Nombre>Anastasia</Nombre>
+			<Apellidos>Del Bosque Salvatierra</Apellidos>
+			<FechaNacimiento>24/01/2018</FechaNacimiento>
+			<Sexo>M</Sexo>
+			<PastaFavorita>Canelones</PastaFavorita> 
+		</Ciudadane>
+	</Asiento>
+        <Asiento ID="5003" Tipo="Nacimiento">
+		<Ciudadane ID="600">
+			<Madre ID="29"/>
+			<Padre ID="50"/>
+			<Nombre>Anastasio</Nombre>
+			<Apellidos>Del Bosque Salvatierro</Apellidos>
+			<FechaNacimiento>24/01/2018</FechaNacimiento>
+			<Sexo>M</Sexo>
+			<PastaFavorita>Farfalles</PastaFavorita> 
+		</Ciudadane>
+	</Asiento>
+        <Asiento ID="5003" Tipo="Nacimiento">
+		<Ciudadane ID="600">
+			<Madre ID="29"/>
+			<Padre ID="50"/>
+			<Nombre>Anastasio</Nombre>
+			<Apellidos>Del Bosque Salvatierro</Apellidos>
+			<FechaNacimiento>24/06/2018</FechaNacimiento>
+			<Sexo>M</Sexo>
+			<PastaFavorita>Farfalle</PastaFavorita> 
+		</Ciudadane>
+	</Asiento>
+	<Asiento ID="5004" Tipo="Divorcio">
+		<Matrimonio>5</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5005" Tipo="Matrimonio">
+		<Ciudadane ID="42"/>
+		<Ciudadane ID="44"/>
+		<Fecha>14/01/2018</Fecha>
+	</Asiento>
+    	<Asiento ID="5006" Tipo="Deceso">
+		<Ciudadane ID="17"/>
+		<Fecha>13/12/2017</Fecha>		
+	</Asiento>
+</Anotaciones>

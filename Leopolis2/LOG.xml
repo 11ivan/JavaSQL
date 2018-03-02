@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Errores>
+    <Incidencia Motivo="El Ciudadane no existe" Fecha="Fecha Actual">
+        <Asiento ID="5001" Tipo="Matrimonio">
+            <Ciudadane ID="60"/>
+            <Ciudadane ID="54"/>
+            <Fecha>26/01/2018</Fecha>
+        </Asiento>
+    </Incidencia>
+    <Incidencia Motivo="El Ciudadane ya está casade" Fecha="Fecha Actual">
+        <Asiento ID="5002" Tipo="Matrimonio">
+            <Ciudadane ID="12"/>
+            <Ciudadane ID="54"/>
+            <Fecha>18/12/2017</Fecha>
+        </Asiento>
+    </Incidencia>
+    <Incidencia Motivo="El Ciudadane ya ha fallecido" Fecha="Fecha Actual">
+        <Asiento ID="5003" Tipo="Matrimonio">
+            <Ciudadane ID="4"/>
+            <Ciudadane ID="54"/>
+            <Fecha>18/12/2017</Fecha>
+        </Asiento>
+    </Incidencia>
+    <Incidencia Motivo="Fecha posterior a la actual" Fecha="Fecha Actual">
+        <Asiento ID="5004" Tipo="Matrimonio">
+            <Ciudadane ID="7"/>
+            <Ciudadane ID="8"/>
+            <Fecha>03/03/2018</Fecha>
+        </Asiento>
+    </Incidencia>
+    <Incidencia Motivo="El Matrimonio no existe" Fecha="Fecha Actual">
+        <Asiento ID="5005" Tipo="Divorcio">
+            <Matrimonio>30</Matrimonio>
+            <Fecha>24/12/2017</Fecha>
+        </Asiento>
+    </Incidencia>
+    <Incidencia Motivo="Fecha anterior a la que se casaron" Fecha="Fecha Actual">
+        <Asiento ID="5006" Tipo="Divorcio">
+            <Matrimonio>6</Matrimonio>
+            <Fecha>04/10/2014</Fecha>
+        </Asiento>
+    </Incidencia>
+    <Incidencia Motivo="Ya estaban divorciados" Fecha="Fecha Actual">
+        <Asiento ID="5007" Tipo="Divorcio">
+            <Matrimonio>4</Matrimonio>
+            <Fecha>24/12/2017</Fecha>
+        </Asiento>
+    </Incidencia>
+</Errores>

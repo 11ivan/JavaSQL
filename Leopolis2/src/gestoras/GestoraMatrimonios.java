@@ -33,7 +33,7 @@ public class GestoraMatrimonios {
     private Query consultaGetMatrimonioVigenteCiudadane;
     private Query consultaGetMatrimonio;
     private Session sesion;
-    private final String ordenConsulta1="from Matrimonios where IDConyuge1 = :idCiudadane1 and Fecha_fin is null or IDConyuge2 = :idCiudadane2 and Fecha_fin is null";
+    private final String ordenConsulta1="from Matrimonios where (IDConyuge1 = :idCiudadane1 or IDConyuge2 = :idCiudadane2) and Fecha_fin is null";
     private final String ordenConsulta2="from Matrimonios where ID=:idMatrimonio";
     
     public GestoraMatrimonios(Session sesion){

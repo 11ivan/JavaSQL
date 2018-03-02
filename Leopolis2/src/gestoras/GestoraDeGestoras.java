@@ -123,7 +123,7 @@ public class GestoraDeGestoras {
                 motivoIncidencia="El Ciudadane ya está casade";
             break;           
             case 2:
-                motivoIncidencia="El Ciudadane ha fallecido";
+                motivoIncidencia="El Ciudadane ya ha fallecido";
             break;            
             case 3:
                 motivoIncidencia="Fecha posterior a la actual";
@@ -138,23 +138,8 @@ public class GestoraDeGestoras {
                 motivoIncidencia="Ya estaban divorciados";
             break;          
             case 7:
-                //motivoIncidencia="El Ciudadane no existe";
-            break;           
-            case 8:
-                //motivoIncidencia="El Ciudadane no existe";
-            break;
-            case 9:
-                //motivoIncidencia="El Ciudadane no existe";
-            break;           
-            case 10:
-                //motivoIncidencia="El Ciudadane no existe";
-            break;
-            case 11:
-                //motivoIncidencia="El Ciudadane no existe";
-            break;          
-            case 12:
-                //motivoIncidencia="El Ciudadane no existe";
-            break;
+                motivoIncidencia="El Ciudadane ya existe";
+            break;                      
         }
         incidencia.setMotivo(motivoIncidencia);//a?adimos el motivo de la incidencia
         listaIncidencias.add(incidencia);//a?adimos la incidencia a la lista de incidencias
@@ -364,7 +349,7 @@ public class GestoraDeGestoras {
         
         try {
             parsed = dateFormat.parse(fechaCadena);           
-            comparacion=matrimonio.compareTo(parsed);//Comparamos la fecha actual con la parseada            
+            comparacion=matrimonio.compareTo(parsed);//Comparamos la fecha de inicio del matrimonio con la parseada            
             //Si la fecha actual es anterior a la parseada
             if(comparacion==-1){
                 esMayor=true;
