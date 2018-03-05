@@ -1,0 +1,2 @@
+El diagrama de clases de hibernate se abre con el programa starUML
+y los otros dos se abren con NetBeans

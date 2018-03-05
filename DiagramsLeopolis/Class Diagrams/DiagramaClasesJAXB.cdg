@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Multi-file class diagram">
+  <ClassDiagramComponents>
+    <Class name="Madre" package="generated" visibility="public" xPosition="307.0" yPosition="245.0">
+      <Fields>
+        <Field name="value" type="String" visibility="protected"/>
+        <Field name="id" type="Byte" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getValue" returnType="String" visibility="public"/>
+        <Method name="setValue" returnType="void" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+        <Method name="getID" returnType="Byte" visibility="public"/>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="Byte" name="value"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Anotaciones" package="generated" visibility="public" xPosition="307.0" yPosition="474.0">
+      <Fields>
+        <Field name="asiento" type="List&lt;Asiento&gt;" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getAsiento" returnType="List&lt;Asiento&gt;" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Incidencia" package="generated" visibility="public" xPosition="832.0" yPosition="-9.0">
+      <Fields>
+        <Field name="asiento" type="Asiento" visibility="protected"/>
+        <Field name="motivo" type="String" visibility="protected"/>
+        <Field name="fecha" type="String" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getAsiento" returnType="Asiento" visibility="public"/>
+        <Method name="setAsiento" returnType="void" visibility="public">
+          <Argument type="Asiento" name="value"/>
+        </Method>
+        <Method name="getMotivo" returnType="String" visibility="public"/>
+        <Method name="setMotivo" returnType="void" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+        <Method name="getFecha" returnType="String" visibility="public"/>
+        <Method name="setFecha" returnType="void" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Asiento" package="generated" visibility="public" xPosition="822.0" yPosition="360.0">
+      <Fields>
+        <Field name="ciudadane" type="List&lt;Ciudadane&gt;" visibility="protected"/>
+        <Field name="matrimonio" type="Byte" visibility="protected"/>
+        <Field name="fecha" type="String" visibility="protected"/>
+        <Field name="id" type="Short" visibility="protected"/>
+        <Field name="tipo" type="String" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getCiudadane" returnType="List&lt;Ciudadane&gt;" visibility="public"/>
+        <Method name="getMatrimonio" returnType="Byte" visibility="public"/>
+        <Method name="setMatrimonio" returnType="void" visibility="public">
+          <Argument type="Byte" name="value"/>
+        </Method>
+        <Method name="getFecha" returnType="String" visibility="public"/>
+        <Method name="setFecha" returnType="void" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+        <Method name="getID" returnType="Short" visibility="public"/>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="Short" name="value"/>
+        </Method>
+        <Method name="getTipo" returnType="String" visibility="public"/>
+        <Method name="setTipo" returnType="void" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Errores" package="generated" visibility="public" xPosition="1220.0" yPosition="106.0">
+      <Fields>
+        <Field name="incidencia" type="List&lt;Incidencia&gt;" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getIncidencia" returnType="List&lt;Incidencia&gt;" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Ciudadane" package="generated" visibility="public" xPosition="1237.0" yPosition="445.0">
+      <Fields>
+        <Field name="content" type="List&lt;Object&gt;" visibility="protected"/>
+        <Field name="id" type="Byte" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getContent" returnType="List&lt;Object&gt;" visibility="public"/>
+        <Method name="getID" returnType="Byte" visibility="public"/>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="Byte" name="value"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Padre" package="generated" visibility="public" xPosition="307.0" yPosition="20.0">
+      <Fields>
+        <Field name="value" type="String" visibility="protected"/>
+        <Field name="id" type="Byte" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getValue" returnType="String" visibility="public"/>
+        <Method name="setValue" returnType="void" visibility="public">
+          <Argument type="String" name="value"/>
+        </Method>
+        <Method name="getID" returnType="Byte" visibility="public"/>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="Byte" name="value"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="generated.Anotaciones" target="generated.Asiento" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="asiento" source="generated.Anotaciones" target="generated.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Asiento&gt;"/>
+    <HasRelation name="ciudadane" source="generated.Asiento" target="generated.Ciudadane" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Ciudadane&gt;"/>
+    <UseRelation source="generated.Asiento" target="generated.Ciudadane" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="incidencia" source="generated.Errores" target="generated.Incidencia" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Incidencia&gt;"/>
+    <UseRelation source="generated.Incidencia" target="generated.Asiento" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="asiento" source="generated.Incidencia" target="generated.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="generated.Errores" target="generated.Incidencia" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

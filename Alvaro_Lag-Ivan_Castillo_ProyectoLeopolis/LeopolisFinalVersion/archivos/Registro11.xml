@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>        
+<Anotaciones>
+    	<Asiento ID="5001" Tipo="Deceso">
+		<Ciudadane ID="12"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5002" Tipo="Nacimiento">
+		<Ciudadane ID="1">
+			<Madre ID="29"/>
+			<Padre ID="50"/>
+			<Nombre>Anastasia</Nombre>
+			<Apellidos>Del Bosque Salvatierra</Apellidos>
+			<FechaNacimiento>24/01/2018</FechaNacimiento>
+			<Sexo>M</Sexo>
+			<PastaFavorita>Canelones</PastaFavorita> 
+		</Ciudadane>
+	</Asiento>
+        <Asiento ID="5003" Tipo="Nacimiento">
+		<Ciudadane ID="600">
+			<Madre ID="29"/>
+			<Padre ID="50"/>
+			<Nombre>Anastasio</Nombre>
+			<Apellidos>Del Bosque Salvatierro</Apellidos>
+			<FechaNacimiento>24/01/2018</FechaNacimiento>
+			<Sexo>M</Sexo>
+			<PastaFavorita>Farfalles</PastaFavorita> 
+		</Ciudadane>
+	</Asiento>
+        <Asiento ID="5004" Tipo="Nacimiento">
+		<Ciudadane ID="600">
+			<Madre ID="29"/>
+			<Padre ID="50"/>
+			<Nombre>Anastasio</Nombre>
+			<Apellidos>Del Bosque Salvatierro</Apellidos>
+			<FechaNacimiento>24/06/2018</FechaNacimiento>
+			<Sexo>M</Sexo>
+			<PastaFavorita>Canelones</PastaFavorita> 
+		</Ciudadane>
+	</Asiento>
+	
+    	<Asiento ID="5005" Tipo="Deceso">
+		<Ciudadane ID="4"/>
+		<Fecha>13/12/2017</Fecha>		
+	</Asiento>
+	<Asiento ID="5006" Tipo="Deceso">
+		<Ciudadane ID="4987"/>
+		<Fecha>13/12/2017</Fecha>		
+	</Asiento>
+	<Asiento ID="5007" Tipo="Matrimonio">
+		<Ciudadane ID="60"/>
+		<Ciudadane ID="54"/>
+		<Fecha>26/01/2018</Fecha>
+	</Asiento>
+	<Asiento ID="5008" Tipo="Matrimonio">
+		<Ciudadane ID="12"/>
+		<Ciudadane ID="54"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5009" Tipo="Matrimonio">
+		<Ciudadane ID="4"/>
+		<Ciudadane ID="54"/>
+		<Fecha>18/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5010" Tipo="Matrimonio">
+		<Ciudadane ID="7"/>
+		<Ciudadane ID="8"/>
+		<Fecha>03/03/2018</Fecha>
+	</Asiento>
+
+	<Asiento ID="5011" Tipo="Divorcio">
+		<Matrimonio>30</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+	<Asiento ID="5012" Tipo="Divorcio">
+		<Matrimonio>6</Matrimonio>
+		<Fecha>04/10/2014</Fecha>
+	</Asiento>
+	<Asiento ID="5013" Tipo="Divorcio">
+		<Matrimonio>4</Matrimonio>
+		<Fecha>24/12/2017</Fecha>
+	</Asiento>
+</Anotaciones>
